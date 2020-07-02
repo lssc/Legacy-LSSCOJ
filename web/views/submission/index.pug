@@ -1,0 +1,41 @@
+extends ../layout
+
+block content
+
+  form(id='form-search', class='form-inline', method='GET')
+    label(for='input_problem_id', class='sr-only') Problem ID
+    input(type='text', class='form-control mb-2 mr-sm-2', name='problem_id', id='input-problem_id', maxlength='4', placeholder='Problem ID')
+    
+    label(for='submitter', class='sr-only') Username
+    input(type='text', class='form-control mb-2 mr-sm-2', name='submitter', id='input-submitter', maxlength='20', placeholder='Username')
+
+    label(for='input-language', class='sr-only') Language
+    input(type='text', class='form-control mb-2 mr-sm-2', name='language', id='input-language', maxlength='10', placeholder='Language')
+
+    button(type='submit', id='submit-search', class='btn btn-secondary mb-2') Search
+  
+  div(class='table-responsive')
+    table(class='table table-bordered table-hover table-stripped table-text-center')
+      thead
+        tr
+          th(scope='col') ID
+          th(scope='col') Problem
+          th(scope='col') Submitter
+          th(scope='col') Result
+          th(scope='col') Time
+          th(scope='col') Memory
+          th(scope='col') Language
+          th(scope='col') File size
+          th(scope='col') Submit time
+      tbody
+        each submission in submissions
+          tr
+            th(scope='row')= submission.id
+            td= submission.problem
+            td= submission.submitter
+            td= submission.result
+            td= submission.time
+            td= submission.memory
+            td= submission.language
+            td= submission.file_size
+            td= submission.submit_time

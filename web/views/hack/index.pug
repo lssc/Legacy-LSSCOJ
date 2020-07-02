@@ -1,0 +1,48 @@
+extends ../layout
+
+block content
+
+  form(id='form-search', class='form-inline', method='GET')
+    label(for='input-submission_id', class='sr-only') Submission ID
+    input(type='text', class='form-control mb-2 mr-sm-2', name='submission_id', id='input-submission_id', maxlength='4', placeholder='Sumission ID')
+    
+    label(for='input_problem_id', class='sr-only') Problem ID
+    input(type='text', class='form-control mb-2 mr-sm-2 ', name='problem_id', id='input-problem_id', maxlength='4', placeholder='Problem ID')
+    
+    label(for='input-hacker', class='sr-only') Hacker
+    input(type='text', class='form-control mb-2 mr-sm-2', name='hacker', id='input-hacker', maxlength='100', placeholder='Hacker')
+    
+    label(for='input-owner', class='sr-only') Owner
+    input(type='text', class='form-control mb-2 mr-sm-2', name='owner', id='input-owner', maxlength='100', placeholder='Owner')
+    
+    label(for='input-status', class='sr-only') Result
+    div(class='input-group mb-2 mr-sm-2')
+      div(class='input-group-prepend')
+        div(class='input-group-text') Result
+      select(class='form-control input-sm', id='input-status', name='status')
+        option(value="" selected="selected") All
+        option(value='1') Success!
+        option(value='2') Failed.
+    
+    button(type='submit', id='submit-search', class='btn btn-secondary mb-2 mr-sm-2') Search
+    
+  table(class='table table-bordered')
+    thead
+        tr
+         th(scope='col') ID
+         th(scope='col') Submission ID
+         th(scope='col') Problem
+         th(scope='col') Hacker
+         th(scope='col') Owner
+         th(scope='col') Result
+         th(scope='col') Submit time
+    tbody
+      each hack in hacks
+        tr
+          th(scope='row')= hack.id
+          td= hack.submission
+          td= hack.problem
+          td= hack.hacker
+          td= hack.owner
+          td= hack.result
+          td= hack.submit_time

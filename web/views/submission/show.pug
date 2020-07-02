@@ -1,0 +1,47 @@
+extends ../layout
+
+block content
+
+  table(class='table')
+    thead
+      tr
+        th ID
+        th Problem
+        th Submitter
+        th Result
+        th Time
+        th Memory
+        th Language
+        th File size
+        th Submit time
+        th Judge time
+    tbody
+      tr
+        th #123
+        td #500
+        td Somebody
+        td 100
+        td 1000ms
+        td 50MB
+        td C++
+        td 3kb
+        td Somewhen
+        td somewhen
+
+  textarea(class='code_area', disabled) Code here
+  
+  button(class='btn btn-error') Hack this Code!
+
+  h5 Details
+
+  div(class='card')
+    div(class='card-header') Test #1
+    div(class='card-body')
+      p input:
+      pre input here
+      
+      p output:
+      pre output here
+
+      p result:
+      pre result here

@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  h1(class='page-header text-center') Contest name
+
+  div(class='row')
+    div(class='col')
+      table(class='table')
+        thead
+          tr
+            th(scope='col') #
+            th(scope='col') Problem
+            th(scope='col') Solved
+        tbody
+          each problem in problems
+            th(scope='row')= problem.id
+            td= problem.title
+            td= problem.solved
+
+    div(class='col-md-auto')
+      div(class='card', style='width: 18rem;')
+        div(class='card-body')
+          h4(class='card-title text-center') Contest status
+          h5(class='card-subtitle mb-2 text-muted text-center') Contest time
+          p(class='card-text') Contest info

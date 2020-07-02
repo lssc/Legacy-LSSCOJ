@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+
+  table(class='table table-bordered')
+    thead
+      tr
+        th(scope='col') #
+        th(scope='col') Problem
+        th(scope='col') Rate
+    tbody
+      each problem in problems
+        tr
+          th(scope='row')= problem.id
+          td= problem.title
+          td= problem.rate

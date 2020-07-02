@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+
+  h4 Current and Upcoming contests
+  table(class='table table-bordered')
+    thead
+        tr
+         th(scope='col') Name
+         th(scope='col') Start time
+         th(scope='col') Duration
+         th(scope='col') Registrants
+    tbody
+      each contest in active_contests
+        tr
+          th(scope='row')= contest.name
+          td= contest.start_time
+          td= contest.duration
+          td= contest.registrants
+
+  h4 Ended contests
+  table(class='table table-bordered')
+    thead
+      tr
+       th(scope='col') Name
+       th(scope='col') Start time
+       th(scope='col') Duration
+       th(scope='col') Registrants
+    tbody
+      each contest in passed_contests
+        tr
+          th(scope='row')= contest.name
+          td= contest.start_time
+          td= contest.duration
+          td= contest.registrants

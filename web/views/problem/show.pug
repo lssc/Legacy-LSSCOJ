@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  h1(class='page-header text-center') Problem Name
+  p(class='text-center') Memeory limit: ,Time-limit:
+  article(class='markdown') content
+
+  h3 Input
+  p describe input format
+  h3 Output
+  p describe output format
+
+  h3 Example 1
+  h4 Input
+  pre something
+  h4 Output
+  pre something
+
+  form(method='post')
+    div(class='form-group')
+      textarea(class='form-control codearea')
+    button(type='submit', class='btn btn-primary') Submit
