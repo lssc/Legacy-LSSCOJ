@@ -7,7 +7,7 @@ for(var i = 0 ; i < markdown_area.length ; i++ ) {
 }
 
 // Setup Codemirror
-var code_area = document.getElementsByClassName('codearea');
+var code_area = document.getElementsByClassName('code-area');
 for(var i = 0 ; i < code_area.length ; i++ ) {
     var element = code_area[i];
     var editor = CodeMirror.fromTextArea(element, {

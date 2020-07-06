@@ -1,22 +1,23 @@
 extends ../layout
 
 block content
-  h1(class='page-header text-center') Problem Name
+  h1(class='page-header text-center')= name
   p(class='text-center') Memeory limit: ,Time-limit:
-  article(class='markdown') content
+  article(class='markdown')= content
 
   h3 Input
-  p describe input format
+  p= input
   h3 Output
-  p describe output format
+  p= output
 
-  h3 Example 1
-  h4 Input
-  pre something
-  h4 Output
-  pre something
+  each example, index in examples
+    h3=  'Example '+index
+    h4 Input
+    pre= example.input
+    h4 Output
+    pre= example.output
 
   form(method='post')
     div(class='form-group')
-      textarea(class='form-control codearea')
+      textarea(class='form-control code-area')
     button(type='submit', class='btn btn-primary') Submit

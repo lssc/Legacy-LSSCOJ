@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  table(class='table')
+    thead
+      tr
+        th(scope='col') Rank
+        th(scope='col') Username
+        each problem in problems
+          th(scope='col')= problem.id
+    tbody
+      each status, name in users
+        tr
+          th(scope='row')= name
+          each score in status
+            td= score

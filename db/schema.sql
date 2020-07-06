@@ -623,7 +623,7 @@ CREATE TABLE `user_info` (
   `password` char(32) NOT NULL,
   `svn_password` char(10) NOT NULL,
   `rating` int(11) NOT NULL DEFAULT '1500',
-  `qq` bigint(20) NOT NULL,
+  `facebook` bigint(20) NOT NULL,
   `sex` char(1) NOT NULL DEFAULT 'U',
   `ac_num` int(11) NOT NULL,
   `register_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

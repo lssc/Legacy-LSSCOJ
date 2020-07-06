@@ -1,11 +1,17 @@
 extends ../layout
 
 block content
-    table(class='table')
-      thead
+  table(class='table')
+    thead
+      tr
+        th(scope='col') #
+        th(scope='col') Username
+        th(scope='col') Motto
+        th(scope='col') Rating
+    tbody
+      each user in users
         tr
-          th(scope='col') #
-          th(scope='col') Username
-          th(scope='col') Quote
-          th(scope='col') Rating
-      tbody
+          th(scope='row')= user.rank
+          td= user.username
+          td= user.motto
+          td= user.rating
