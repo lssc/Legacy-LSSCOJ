@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+    web:
+        build: web/
+        restart: always
+        ports:
+            - 80:3000
+        depends_on:
+            - db
+        environment: 
+            - DB_HOST=db
+            - DB_USER=lsscoj
+            - DB_PASS=CHANGE_THIS
+            - DB_NAME=lsscoj
+
+    db:
+        image: mysql:5.7
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_DATABASE: lsscoj
+            MYSQL_USER: lsscoj
+            MYSQL_PASSWORD: CHANGE_THIS
+            MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+        volumes:
+            - ./db:/docker-entrypoint-initdb.d
