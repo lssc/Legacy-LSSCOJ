@@ -1,7 +1,7 @@
 const express = require('express');
-var router = express.Router();
-
 const mysql = require('mysql');
+
+const router = express.Router();
 const connection = mysql.createConnection(global.DB_INFO);
 connection.connect();
 
