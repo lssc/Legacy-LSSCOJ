@@ -1,26 +1,24 @@
 const express = require('express');
-const mysql = require('mysql');
+var router = express.Router();
 
-const router = express.Router();
-const connection = mysql.createConnection(global.DB_INFO);
-connection.connect();
+const User_info = require('../models/index').user_info;
 
 /* GET users listing. */
-router.get('/', (req, res) => {
-  const cmd = 'SELECT * FROM user_info';
-  connection.query(cmd, (err, rows) => {
-    if (err) throw err;
-    res.render('user/rating', { users: rows });
-  });
+router.get('/', function(req, res, next) {
+	User_info.findAll()
+	.then(users => res.render('user/rating', {'users' : users}))
+	.catch(error => {throw error});
 });
 
 /* GET user profile */
-router.get('/:id', (req, res) => {
-  const cmd = 'SELECT * FROM user_info WHERE id= ?';
-  connection.query(cmd, [req.params.id], (err, rows) => {
-    if (err) throw err;
-    res.render('user/profile', { profile: rows[0] });
-  });
+router.get('/:id', function(req, res, next ) {
+	const id = req.params.id;
+
+	User_info.findOne({
+		where: {id: id}
+	})
+	.then(user => res.render('user/profile', {profile: user}))
+	.catch(error => {throw error});
 });
 
 module.exports = router;

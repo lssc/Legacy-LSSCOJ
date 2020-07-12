@@ -31,6 +31,11 @@ DB_NAME=lsscoj \
 npm start
 ```
 
+Also, you may try this:
+```
+npm run dev
+```
+
 Congratulation, you have your environment setted.
 
 ## Contributions

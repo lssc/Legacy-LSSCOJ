@@ -1,81 +1,108 @@
 const express = require('express');
-const mysql = require('mysql');
+var router = express.Router();
 
-const router = express.Router();
-const connection = mysql.createConnection(global.DB_INFO);
-connection.connect();
+const Contests = require('../models/index').contest;
+const Contests_problems = require('../models/index').contests_problems;
+const Contests_submissions = require('../models/index').contests_submissions;
 
 /* GET contest list. */
-router.get('/', (req, res) => {
-  let cmd = 'SELECT * FROM contests WHERE status!="finished";';
-  cmd += 'SELECT * FROM contests WHERE status="finished";';
+router.get('/', function(req, res, next) {
+	var active, passed;
 
-  connection.query(cmd, (err, rows) => {
-    if (err) throw err;
-    const active = rows[0];
-    const passed = rows[1];
+	/* Active & Future Contests*/
+	Contests.findAll({
+		where: {status: {$not: 'finished'}}
+	})
+	.then(contest => active = contest)
+	.catch(error => {throw error});
 
-    res.render('contest/index', {
-      active_contests: active,
-      passed_contests: passed,
-    });
-  });
-});
+	/* Passed Contests*/
+	Contests.findAll({
+		where: {status: 'finished'}
+	})
+	.then(contest => passed = contest)
+	.catch(error => {throw error});
+
+	res.render('contest/index', {
+		active_contests: active,
+		passed_contests: passed
+	});
+})
 
 /* GET speficied contest */
-router.get('/:id', (req, res) => {
-  let cmd = 'SELECT * FROM contests WHERE id = ?;';
-  cmd += 'SELECT * FROM contests_problems WHERE contest_id = ?;';
+router.get('/:id', function(req, res, next) {
+	const id = req.params.id;
+	var contest, problems;
 
-  const { id } = req.params;
-  connection.query(cmd, [id, id], (err, rows) => {
-    if (err) throw err;
-    const contest = rows[0][0];
-    const problems = rows[1];
+	/* The Contest */
+	Contests.findOne({
+		where: {id: id}
+	})
+	.then(contests => contest = contests.name)
+	.catch(error => {throw error});
 
-    res.render('contest/dashboard', { contest, problems });
-  });
+	/* Contest Problems */
+	Contests_problems.findAll({
+		where: {contest_id: id}
+	})
+	.then(contests_problems => problems = contests_problems)
+	.catch(error => {throw error});
+
+	res.render('contest/dashboard', {'contest': contest, 'problems' : problems});
 });
 
 /* GET standings of contest */
-router.get('/:id/standings', (req, res) => {
-  let cmd = 'SELECT * FROM contests_problems WHERE contest_id = ?;';
-  cmd += 'SELECT * FROM contests_submissions WHERE contest_id = ?;';
+router.get('/:id/standings', function(req, res, next) {
+	const id = req.params.id;
+	var problem, users = [];
 
-  const { id } = req.params;
-  connection.query(cmd, [id, id], (err, rows) => {
-    if (err) throw err;
-    const users = [];
-    rows[1].forEach((row) => {
-      const currentScore = users[row.submitter][row.problem_id];
-      if (currentScore < row.score) {
-        users[row.submitter][row.problem_id] = row.score;
-      }
-    });
+	/* Contest Problems */
+	Contests_problems.findAll({
+		where: {contest_id: id}
+	})
+	.then(contests_problems => problem = contests_problems)
+	.catch(error => {throw error});
 
-    res.render('contest/standings', {
-      problems: rows[0],
-      users,
-    });
-  });
+	/* Get User's score for each problem by Contest Submissions*/
+	Contests_submissions.findAll({
+		where: {contest_id: id}
+	})
+	.then(contests_submissions => {
+		contests_submissions.forEach(row => {
+			var current_score = users[row.submitter][row.problem_id];
+			if(current_score < row.score){
+				users[row.submitter][row.problem_id] = row.score;
+			}
+		});
+	})
+	.catch(error => {throw error});
+
+	res.render('contest/standings', {
+		problems: problems,
+		users: users
+	});
 });
 
 /* GET submissions of contest */
-router.get('/:id/submissions', (req, res) => {
-  const cmd = 'SELECT * FROM contests_submissions WHERE contest_id = ?';
-  connection.query(cmd, [req.params.id], (err, rows) => {
-    if (err) throw err;
-    res.render('contest/submissions', { submissions: rows });
-  });
+router.get('/:id/submissions', function(req, res, next) {
+	const id = req.params.id;
+
+	Contests_submissions.findAll({
+		where: {contest_id: id}
+	})
+	.then(contests_submissions => res.render('contest/submissions', {'submissions' : contests_submissions}))
+	.catch(error => {throw error});
 });
 
 /* GET speficied problem in contest */
-router.get('/:cid/problem/:pid', (req, res) => {
-  const cmd = 'SELECT * FROM problems WHERE id = ?';
-  connection.query(cmd, [req.params.pid], (err, rows) => {
-    if (err) throw err;
-    res.render('contest/problem', rows[0]);
-  });
+router.get('/:cid/problem/:pid', function(req, res, next) {
+	const id = req.params.id;
+
+	Problems.findOne({
+		where: {id: id}
+	})
+	.then(problem => res.render('contest/problem', problem))
+	.catch(error => {throw error});
 });
 
 module.exports = router;

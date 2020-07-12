@@ -1,13 +1,13 @@
-const createError = require('http-errors');
-const express = require('express');
-const session = require('express-session');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+var createError = require('http-errors');
+var express = require('express');
+var session = require('express-session');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
 const sess = {
-  name: 'sessionId',
-  secret: 'CHANGE_THS_OPTIONAL',
+  name:   'sessionId',
+  secret: 'CHANGE_THS_OPTIONAL'
 };
 
 global.DB_INFO = {
@@ -15,18 +15,18 @@ global.DB_INFO = {
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  multipleStatements: true,
+  multipleStatements: true
 };
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const problemsRouter = require('./routes/problems');
-const contestsRouter = require('./routes/contests');
-const submissionsRouter = require('./routes/submissions');
-const hacksRouter = require('./routes/hacks');
-const judgeRouter = require('./routes/judge');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var problemsRouter = require('./routes/problems');
+var contestsRouter = require('./routes/contests');
+var submissionsRouter = require('./routes/submissions');
+var hacksRouter = require('./routes/hacks');
+var judgeRouter = require('./routes/judge');
 
-const app = express();
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,12 +48,12 @@ app.use('/hack', hacksRouter);
 app.use('/judge', judgeRouter);
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
+app.use(function(req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use((err, req, res) => {
+app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

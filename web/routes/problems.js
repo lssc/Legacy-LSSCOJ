@@ -1,38 +1,41 @@
 const express = require('express');
-const mysql = require('mysql');
+var router = express.Router();
 
-const router = express.Router();
-const connection = mysql.createConnection(global.DB_INFO);
-connection.connect();
+const Problems = require('../models/index').problems;
 
-/* GET prblem set. */
-router.get('/', (req, res) => {
-  const cmd = 'SELECT * FROM problems';
-
-  connection.query(cmd, (err, rows) => {
-    if (err) throw err;
-    res.render('problem/index', { problems: rows });
-  });
+/* GET problem set. */
+router.get('/', function(req, res, next) {
+	console.log('ok');
+	Problems.findAll()
+	.then(problems => res.render('problem/index', {'problems' : problems}))
+	.catch(error => res.send(error));
 });
 
 /* GET speficied problem */
-router.get('/:id', (req, res) => {
-  const cmd = 'SELECT * FROM problems WHERE id = ?';
-  connection.query(cmd, [req.params.id], (err, rows) => {
-    if (err) throw err;
-    res.render('problem/show', {
-      problem: rows[0],
-      examples: [],
-    });
-  });
+router.get('/:id', function(req, res, next) {
+	const id = req.params.id;
+
+	Problems.findOne({
+		where: {id: id}
+	})
+	.then(problem => {
+		res.render('problem/show', {
+			problem : problem,
+			examples: []
+		})
+	})
+	.catch(error => res.send(error));
 });
 
 /* POST submit answer */
-router.post('/:id', (req, res) => {
-  if (req.session.username) {
-  } else {
-    res.redirect('/login');
-  }
+router.post('/:id', function(req, res, next) {
+	if(req.session.username) {
+		/* Push Submission */
+		res.redirect('/');
+	}
+	else {
+		res.redirect('/login');
+	}
 });
 
 /* GET problem */

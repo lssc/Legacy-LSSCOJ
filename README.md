@@ -2,8 +2,6 @@
 
 A Online Judge for LSSC
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7e8ff3eb35b94035a2ddaeb483c09a4c)](https://www.codacy.com/gh/lssc/LSSCOJ?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lssc/LSSCOJ&amp;utm_campaign=Badge_Grade)
-
 ## Feature
 
 -   Imported Extra Tests, Hack more rigorous and more fun!
