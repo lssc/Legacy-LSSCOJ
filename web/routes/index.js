@@ -1,57 +1,68 @@
 const express = require('express');
-const mysql = require('mysql');
+var router = express.Router();
 
-const router = express.Router();
-const connection = mysql.createConnection(global.DB_INFO);
-connection.connect();
+const User_info = require('../models/index').user_info;
 
 /* GET home page. */
-router.get('/', (req, res) => {
+router.get('/', function(req, res, next) {
   res.render('index');
 });
 
 /* GET login & register page */
-router.get('/login', (req, res) => {
+router.get('/login', function(req, res, next ) {
   res.render('login');
 });
 
 /* POST login user */
-router.post('/login', (req, res) => {
-  const { username } = req.body;
-  const { password } = req.body;
+router.post('/login', function(req, res, next) {
+	const username = req.body.username;
+	const password = req.body.password;
 
-  const cmd = 'SELECT * FROM user_info WHERE username=? AND password=?';
-  connection.query(cmd, [username, password], (err, rows) => {
-    if (err) throw err;
-    if (rows.length === 1) {
-      req.session.username = username;
-      res.redirect('/');
-    } else {
-      res.send('Login failed');
-    }
-  });
+	User_info.findOne({
+		where: {
+			username: username,
+			password: password,
+		}
+	})
+	.then(user_info => {
+		if(!user_info){
+			res.send('Login failed');
+		}else{
+			req.session.username = username;
+			res.redirect('/');
+		}
+	})
+	.catch(error => {throw error});
 });
 
-/* POST registe user */
-router.post('/registes', (req, res) => {
-  const { username } = req.body;
-  const { email } = req.body;
-  const { password } = req.body;
 
-  const cmd1 = 'SELECT * FROM user_info WHERE username = ?';
-  connection.query(cmd1, [username], (err, rows) => {
-    if (err) throw err;
-    if (rows.length !== 0) {
-      res.send('Username existed');
-    } else {
-      const cmd2 = 'INSERT INTO user_info (username, email, password) VALUES (?,?,?)';
-      connection.query(cmd2, [username, email, password], (err2) => {
-        if (err2) throw err2;
-        req.session.username = username;
-        res.redirect('/');
-      });
-    }
-  });
+
+/* POST registe user */
+router.post('/registes', function(req, res, next){
+	const username = req.body.username;
+	const email = req.body.email;
+	const password = req.body.password;
+
+	User_info.findOne({
+		where: {username: username}
+	})
+	.then(user_info => {
+		if(user_info){
+			res.send('Username existed');
+		}else{
+			User_info.create({
+				username: username,
+				email: email,
+				password: password,
+			})
+			.then(() => {
+				require.session.username = username;
+				redirect('/');
+			})
+			.catch(err => res.send(err));
+		}
+	})
+	.catch(err => res.send(err));
 });
 
 module.exports = router;

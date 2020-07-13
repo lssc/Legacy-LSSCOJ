@@ -1,23 +1,18 @@
 const express = require('express');
-const mysql = require('mysql');
+var router = express.Router();
 
-const router = express.Router();
-const connection = mysql.createConnection(global.DB_INFO);
-connection.connect();
+const Hacks = require('../models/index').hacks;
 
 /* GET home page. */
-router.get('/', (req, res) => {
-  const cmd = 'SELECT * FROM hacks';
-
-  connection.query(cmd, (err, rows) => {
-    if (err) throw err;
-    res.render('hack/index', { hacks: rows });
-  });
+router.get('/', function(req, res, next) {
+	Hacks.findAll()
+	.then(hacks => res.render('hack/index', {hacks : hacks}))
+	.catch(error => {throw error})
 });
 
 /* GET speficied hack */
-router.get('/:id', (req, res) => {
-  res.render('hack/show');
+router.get('/:id', function(req, res, next) {
+    res.render('hack/show');
 });
 
 module.exports = router;
