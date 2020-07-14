@@ -1,35 +1,36 @@
 const express = require('express');
-const mysql = require('mysql');
+const Problems = require('../models/index').problems;
 
 const router = express.Router();
-const connection = mysql.createConnection(global.DB_INFO);
-connection.connect();
 
 /* GET prblem set. */
 router.get('/', (req, res) => {
-  const cmd = 'SELECT * FROM problems';
-
-  connection.query(cmd, (err, rows) => {
-    if (err) throw err;
-    res.render('problem/index', { problems: rows });
-  });
+  Problems.findAll()
+    .then((problems) => res.render('problem/index', { problems }))
+    .catch((error) => { throw error; });
 });
 
 /* GET speficied problem */
 router.get('/:id', (req, res) => {
-  const cmd = 'SELECT * FROM problems WHERE id = ?';
-  connection.query(cmd, [req.params.id], (err, rows) => {
-    if (err) throw err;
-    res.render('problem/show', {
-      problem: rows[0],
-      examples: [],
-    });
-  });
+  const { id } = req.params;
+
+  Problems.findOne({
+    where: { id },
+  })
+    .then((problem) => {
+      res.render('problem/show', {
+        problem,
+        examples: [],
+      });
+    })
+    .catch((error) => { throw error; });
 });
 
 /* POST submit answer */
 router.post('/:id', (req, res) => {
   if (req.session.username) {
+    /* Push Submission */
+    res.redirect('/');
   } else {
     res.redirect('/login');
   }

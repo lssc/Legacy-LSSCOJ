@@ -1,9 +1,7 @@
 const express = require('express');
-const mysql = require('mysql');
+const UserInfo = require('../models/index').user_info;
 
 const router = express.Router();
-const connection = mysql.createConnection(global.DB_INFO);
-connection.connect();
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -20,16 +18,21 @@ router.post('/login', (req, res) => {
   const { username } = req.body;
   const { password } = req.body;
 
-  const cmd = 'SELECT * FROM user_info WHERE username=? AND password=?';
-  connection.query(cmd, [username, password], (err, rows) => {
-    if (err) throw err;
-    if (rows.length === 1) {
-      req.session.username = username;
-      res.redirect('/');
-    } else {
-      res.send('Login failed');
-    }
-  });
+  UserInfo.findOne({
+    where: {
+      username,
+      password,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        res.send('Login failed');
+      } else {
+        req.session.username = username;
+        res.redirect('/');
+      }
+    })
+    .catch((error) => { throw error; });
 });
 
 /* POST registe user */
@@ -38,20 +41,26 @@ router.post('/registes', (req, res) => {
   const { email } = req.body;
   const { password } = req.body;
 
-  const cmd1 = 'SELECT * FROM user_info WHERE username = ?';
-  connection.query(cmd1, [username], (err, rows) => {
-    if (err) throw err;
-    if (rows.length !== 0) {
-      res.send('Username existed');
-    } else {
-      const cmd2 = 'INSERT INTO user_info (username, email, password) VALUES (?,?,?)';
-      connection.query(cmd2, [username, email, password], (err2) => {
-        if (err2) throw err2;
-        req.session.username = username;
-        res.redirect('/');
-      });
-    }
-  });
+  UserInfo.findOne({
+    where: { username },
+  })
+    .then((user) => {
+      if (user) {
+        res.send('Username existed');
+      } else {
+        UserInfo.create({
+          username,
+          email,
+          password,
+        })
+          .then(() => {
+            require.session.username = username;
+            res.redirect('/');
+          })
+          .catch((err) => res.send(err));
+      }
+    })
+    .catch((err) => res.send(err));
 });
 
 module.exports = router;

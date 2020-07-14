@@ -1,26 +1,24 @@
 const express = require('express');
-const mysql = require('mysql');
+const Submissions = require('../models/index').submissions;
 
 const router = express.Router();
-const connection = mysql.createConnection(global.DB_INFO);
-connection.connect();
 
 /* GET submission list. */
 router.get('/', (req, res) => {
-  const cmd = 'SELECT * FROM submissions';
-  connection.query(cmd, (err, rows) => {
-    if (err) throw err;
-    res.render('submission/index', { submissions: rows });
-  });
+  Submissions.findAll()
+    .then((submissions) => res.render('submission/index', { submissions }))
+    .catch((error) => { throw error; });
 });
 
 /* GET submission detail */
 router.get('/:id', (req, res) => {
-  const cmd = 'SELECT * FROM submissions WHERE id = ?';
-  connection.query(cmd, [req.params.id], (err, rows) => {
-    if (err) throw err;
-    res.render('submission/show', { submission: rows[0] });
-  });
+  const { id } = req.params;
+
+  Submissions.findOne({
+    where: { id },
+  })
+    .then((submission) => res.render('submission/show', submission))
+    .catch((error) => { throw error; });
 });
 
 module.exports = router;
