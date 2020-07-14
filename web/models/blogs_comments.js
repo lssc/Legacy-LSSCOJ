@@ -1,39 +1,39 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('blogs_comments', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     blog_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     content: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     post_time: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
     },
     poster: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
     },
     zan: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     reply_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   }, {
     sequelize,
-    tableName: 'blogs_comments'
+    tableName: 'blogs_comments',
   });
 };

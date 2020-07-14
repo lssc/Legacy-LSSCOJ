@@ -1,25 +1,25 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('contests_notice', {
     contest_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     title: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
     },
     content: {
       type: DataTypes.STRING(500),
-      allowNull: false
+      allowNull: false,
     },
     time: {
       type: DataTypes.DATE,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   }, {
     sequelize,
-    tableName: 'contests_notice'
+    tableName: 'contests_notice',
   });
 };

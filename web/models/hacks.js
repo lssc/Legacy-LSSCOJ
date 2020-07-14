@@ -1,63 +1,63 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('hacks', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     problem_id: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
+      allowNull: false,
     },
     contest_id: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: true
+      allowNull: true,
     },
     submission_id: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
+      allowNull: false,
     },
     hacker: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
     },
     owner: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
     },
     input: {
       type: DataTypes.STRING(150),
-      allowNull: false
+      allowNull: false,
     },
     input_type: {
       type: DataTypes.CHAR(20),
-      allowNull: false
+      allowNull: false,
     },
     submit_time: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
     },
     judge_time: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
     },
     success: {
       type: DataTypes.INTEGER(1),
-      allowNull: true
+      allowNull: true,
     },
     details: {
       type: 'BLOB',
-      allowNull: false
+      allowNull: false,
     },
     is_hidden: {
       type: DataTypes.INTEGER(1),
-      allowNull: false
-    }
+      allowNull: false,
+    },
   }, {
     sequelize,
-    tableName: 'hacks'
+    tableName: 'hacks',
   });
 };

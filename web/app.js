@@ -17,8 +17,8 @@ global.DB_INFO = {
   database: process.env.DB_NAME,
   dialect: 'mysql',
   define: {
-    timestamps: false
-  }
+    timestamps: false,
+  },
 };
 
 const indexRouter = require('./routes/index');

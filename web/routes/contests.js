@@ -1,115 +1,115 @@
 const express = require('express');
-var router = express.Router();
-
 const Contests = require('../models/index').contests;
-const Contests_problems = require('../models/index').contests_problems;
-const Contests_submissions = require('../models/index').contests_submissions;
+const ContestsProblems = require('../models/index').contests_problems;
+const ContestsSubmissions = require('../models/index').contests_submissions;
+const Problems = require('../models/problems').problems;
+
+const router = express.Router();
 
 /* GET contest list. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res) => {
+  /* Current & Upcoming contests */
+  const contests = Contests.findAll({
+    exclude: [
+      {
+        where: { status: 'finished' },
+      },
+    ],
+  });
 
-	/* Current & Upcoming contests */
-	const active = Contests.findAll({
-		exclude: [
-			{
-				where: {status: 'finished'}
-			}
-		]
-	});
-	
-	/* Ended contests */
-	const passed = Contests.findAll({
-		where: {status: 'finished'}
-	})
+  /* Ended contests */
+  const contests2 = Contests.findAll({
+    where: { status: 'finished' },
+  });
 
-	Promise.all([active, passed]).then(([active, passed]) => {
-		res.render('contest/index', {
-			active_contests: active,
-			passed_contests: passed
-		});
-	})
-	.catch(error => {throw error});
-})
+  Promise.all([contests, contests2]).then(([active, passed]) => {
+    res.render('contest/index', {
+      active_contests: active,
+      passed_contests: passed,
+    });
+  })
+    .catch((error) => { throw error; });
+});
 
 /* GET speficied contest */
-router.get('/:id', function(req, res, next) {
-	const id = req.params.id;
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
 
-	/* The Contest */
-	const contest = Contests.findOne({
-		where: {id: id}
-	})
+  /* The Contest */
+  const contests = Contests.findOne({
+    where: { id },
+  });
 
-	/* Contest Problems */
-	const problems = Contests_problems.findAll({
-		where: {contest_id: id}
-	})
-	
-	Promise.all([contest, problems]).then(([contest, problems]) => {
-		res.render('contest/dashboard', {
-			'contest': contest,
-			'problems' : problems
-		});
-	})
-	.catch(error => {throw error});
+  /* Contest Problems */
+  const contestProblems = ContestsProblems.findAll({
+    where: { contest_id: id },
+  });
+
+  Promise.all([contests, contestProblems]).then(([contest, problems]) => {
+    res.render('contest/dashboard', {
+      contest,
+      problems,
+    });
+  })
+    .catch((error) => { throw error; });
 });
 
 /* GET standings of contest */
-router.get('/:id/standings', function(req, res, next) {
-	const id = req.params.id;
+router.get('/:id/standings', (req, res) => {
+  const { id } = req.params;
 
-	/* Contest Problems */
-	const problem = Contests_problems.findAll({
-		where: {contest_id: id}
-	})
+  /* Contest Problems */
+  const contestsProblem = ContestsProblems.findAll({
+    where: { contest_id: id },
+  });
 
-	/* Get User's score for each problem by Contest Submissions */
-	const contests_submissions = Contests_submissions.findAll({
-		where: {contest_id: id}
-	})
+  /* Get User's score for each problem by Contest Submissions */
+  const contestsSubmissions = ContestsSubmissions.findAll({
+    where: { contest_id: id },
+  });
 
-	Promise.all([problem, contests_submissions]).then(([problem, contests_submissions]) => {
-		var users = [];
+  Promise.all([contestsProblem, contestsSubmissions]).then(([problem, submissions]) => {
+    const users = [];
 
-		contests_submissions.forEach(row => {
-			var current_score = users[row.submitter][row.problem_id];
-			if(current_score < row.score){
-				users[row.submitter][row.problem_id] = row.score;
-			}
-		});
+    submissions.forEach((row) => {
+      const currentScore = users[row.submitter][row.problem_id];
+      if (currentScore < row.score) {
+        users[row.submitter][row.problem_id] = row.score;
+      }
+    });
 
-		res.render('contest/standings', {
-			problems: problems,
-			users: users
-		});
-	})
-	.catch(error => {throw error});
+    res.render('contest/standings', {
+      problem,
+      users,
+    });
+  })
+    .catch((error) => { throw error; });
 });
 
 /* GET submissions of contest */
-router.get('/:id/submissions', function(req, res, next) {
-	const id = req.params.id;
+router.get('/:id/submissions', (req, res) => {
+  const { id } = req.params;
 
-	Contests_submissions.findAll({
-		where: {contest_id: id}
-	})
-	.then(contests_submissions => {
-		res.render('contest/submissions', {
-			'submissions' : contests_submissions
-		});
-	})
-	.catch(error => {throw error});
+  ContestsSubmissions.findAll({
+    where: { contest_id: id },
+  })
+    .then((submissions) => {
+      res.render('contest/submissions', {
+        submissions,
+      });
+    })
+    .catch((error) => { throw error; });
 });
 
 /* GET speficied problem in contest */
-router.get('/:cid/problem/:pid', function(req, res, next) {
-	const id = req.params.id;
+router.get('/:cid/problem/:pid', (req, res) => {
+  const { id } = req.params;
 
-	Problems.findOne({
-		where: {id: id}
-	})
-	.then(problem => res.render('contest/problem', problem))
-	.catch(error => {throw error});
+  Problems.findOne({
+    where: { id },
+  })
+    .then((problem) => res.render('contest/problem', problem))
+    .catch((error) => { throw error; });
 });
 
 module.exports = router;

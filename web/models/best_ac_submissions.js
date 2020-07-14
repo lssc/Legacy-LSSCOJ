@@ -1,51 +1,51 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('best_ac_submissions', {
     problem_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     submitter: {
       type: DataTypes.STRING(20),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     submission_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     used_time: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     used_memory: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     tot_size: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     shortest_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     shortest_used_time: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     shortest_used_memory: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     shortest_tot_size: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   }, {
     sequelize,
-    tableName: 'best_ac_submissions'
+    tableName: 'best_ac_submissions',
   });
 };

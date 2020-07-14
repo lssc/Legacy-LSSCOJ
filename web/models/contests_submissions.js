@@ -1,36 +1,36 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('contests_submissions', {
     contest_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     submitter: {
       type: DataTypes.STRING(20),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     problem_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     submission_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     score: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     penalty: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   }, {
     sequelize,
-    tableName: 'contests_submissions'
+    tableName: 'contests_submissions',
   });
 };

@@ -1,44 +1,44 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('contests_asks', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     contest_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     username: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
     },
     question: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     answer: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     post_time: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
     },
     reply_time: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
     },
     is_hidden: {
       type: DataTypes.INTEGER(1),
       allowNull: true,
-      defaultValue: "0"
-    }
+      defaultValue: '0',
+    },
   }, {
     sequelize,
-    tableName: 'contests_asks'
+    tableName: 'contests_asks',
   });
 };

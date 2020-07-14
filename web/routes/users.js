@@ -1,24 +1,24 @@
 const express = require('express');
-var router = express.Router();
+const UserInfo = require('../models/index').user_info;
 
-const User_info = require('../models/index').user_info;
+const router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-	User_info.findAll()
-	.then(users => res.render('user/rating', {'users' : users}))
-	.catch(error => {throw error});
+router.get('/', (req, res) => {
+  UserInfo.findAll()
+    .then((users) => res.render('user/rating', { users }))
+    .catch((error) => { throw error; });
 });
 
 /* GET user profile */
-router.get('/:id', function(req, res, next ) {
-	const id = req.params.id;
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
 
-	User_info.findOne({
-		where: {id: id}
-	})
-	.then(user => res.render('user/profile', {profile: user}))
-	.catch(error => {throw error});
+  UserInfo.findOne({
+    where: { id },
+  })
+    .then((user) => res.render('user/profile', { profile: user }))
+    .catch((error) => { throw error; });
 });
 
 module.exports = router;
