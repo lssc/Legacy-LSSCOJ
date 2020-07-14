@@ -4,8 +4,17 @@ const Sequelize = require('sequelize');
 
 const basename = path.basename(__filename);
 const db = {};
-console.log(DB_INFO);
-const sequelize = new Sequelize(DB_INFO);
+
+const sequelize = new Sequelize({
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  dialect: 'mysql',
+  define: {
+    timestamps: false,
+  },
+});
 
 fs
   .readdirSync(__dirname)

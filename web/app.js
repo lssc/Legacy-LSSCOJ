@@ -10,17 +10,6 @@ const sess = {
   secret: 'CHANGE_THS_OPTIONAL',
 };
 
-global.DB_INFO = {
-  host: process.env.DB_HOST,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  dialect: 'mysql',
-  define: {
-    timestamps: false,
-  },
-};
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const problemsRouter = require('./routes/problems');

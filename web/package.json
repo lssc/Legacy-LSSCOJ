@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "lint": "eslint --fix routes/*.js",
-    "dev": "DEBUG=express:* \\\nDB_HOST=localhost \\\nDB_USER=lsscoj \\\nDB_PASS=CHANGE_THIS \\\nDB_NAME=lsscoj \\\nnpm start"
+    "dev": "DEBUG=express:* DB_HOST=localhost DB_USER=lsscoj DB_PASS=CHANGE_THIS DB_NAME=lsscoj npm start"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
