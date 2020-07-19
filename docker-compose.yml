@@ -25,5 +25,3 @@ services:
             MYSQL_USER: lsscoj
             MYSQL_PASSWORD: CHANGE_THIS
             MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-        volumes:
-            - ./db:/docker-entrypoint-initdb.d
