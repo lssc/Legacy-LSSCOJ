@@ -1,13 +1,13 @@
 module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
-  usergroup: {
-    type: DataTypes.CHAR(1),
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
-    defaultValue: 'U',
+    primaryKey: true,
+    autoIncrement: true,
   },
   username: {
     type: DataTypes.STRING(20),
     allowNull: false,
-    primaryKey: true,
   },
   email: {
     type: DataTypes.STRING(50),
@@ -17,23 +17,14 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
     type: DataTypes.CHAR(32),
     allowNull: false,
   },
-  svn_password: {
-    type: DataTypes.CHAR(10),
-    allowNull: false,
+  contest_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
   },
   rating: {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: '1500',
-  },
-  facebook: {
-    type: DataTypes.BIGINT,
-    allowNull: false,
-  },
-  sex: {
-    type: DataTypes.CHAR(1),
-    allowNull: false,
-    defaultValue: 'U',
   },
   ac_num: {
     type: DataTypes.INTEGER,
@@ -44,14 +35,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
     allowNull: false,
     defaultValue: 'CURRENT_TIMESTAMP',
   },
-  remote_addr: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-  },
-  http_x_forwarded_for: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-  },
   remember_token: {
     type: DataTypes.CHAR(60),
     allowNull: false,
@@ -59,6 +42,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
   quote: {
     type: DataTypes.STRING(200),
     allowNull: false,
+    defaultValue: '',
   },
 }, {
   sequelize,
