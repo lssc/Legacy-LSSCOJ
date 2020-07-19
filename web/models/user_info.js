@@ -35,10 +35,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
     allowNull: false,
     defaultValue: 'CURRENT_TIMESTAMP',
   },
-  remember_token: {
-    type: DataTypes.CHAR(60),
-    allowNull: false,
-  },
   quote: {
     type: DataTypes.STRING(200),
     allowNull: false,
