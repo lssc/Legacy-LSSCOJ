@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
     type: DataTypes.CHAR(32),
     allowNull: false,
   },
-  contest_id: {
+  current_contest_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
