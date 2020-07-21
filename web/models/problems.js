@@ -14,23 +14,10 @@ module.exports = (sequelize, DataTypes) => sequelize.define('problems', {
     allowNull: false,
     defaultValue: '0',
   },
-  submission_requirement: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
   hackable: {
     type: DataTypes.INTEGER(1),
     allowNull: false,
     defaultValue: '0',
-  },
-  extra_config: {
-    type: DataTypes.STRING(500),
-    allowNull: false,
-    defaultValue: '{"view_content_type":"ALL","view_details_type":"ALL"}',
-  },
-  zan: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
   },
   ac_num: {
     type: DataTypes.INTEGER,
@@ -41,6 +28,14 @@ module.exports = (sequelize, DataTypes) => sequelize.define('problems', {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: '0',
+  },
+  statement: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  hint: {
+    type: DataTypes.TEXT,
+    allowNull: true,
   },
 }, {
   sequelize,

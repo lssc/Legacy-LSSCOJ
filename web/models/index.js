@@ -13,8 +13,11 @@ const sequelize = new Sequelize({
   dialect: 'mysql',
   define: {
     timestamps: false,
+    logging: true,
   },
 });
+
+sequelize.sync({ force: true });
 
 fs
   .readdirSync(__dirname)
