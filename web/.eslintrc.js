@@ -14,5 +14,6 @@ module.exports = {
     '**/public/javascripts/*',
   ],
   rules: {
+    'no-console': 0,
   },
 };

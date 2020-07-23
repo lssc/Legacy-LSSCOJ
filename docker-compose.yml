@@ -15,7 +15,7 @@ services:
             - DB_NAME=lsscoj
 
     db:
-        image: mysql:5.7
+        image: mysql:latest
         command: --default-authentication-plugin=mysql_native_password
         restart: always
         ports:

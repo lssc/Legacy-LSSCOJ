@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
   id: {
     type: DataTypes.INTEGER.UNSIGNED,
@@ -33,7 +35,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
   register_time: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: 'CURRENT_TIMESTAMP',
+    defaultValue: Sequelize.NOW,
   },
   quote: {
     type: DataTypes.STRING(200),
