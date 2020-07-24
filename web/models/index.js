@@ -17,8 +17,6 @@ const sequelize = new Sequelize({
   },
 });
 
-<<<<<<< HEAD
-=======
 sequelize.authenticate().then(() => {
   console.log('Connection has been established successfully.');
 }).catch((err) => {
@@ -26,7 +24,6 @@ sequelize.authenticate().then(() => {
   process.exit(1);
 });
 
->>>>>>> lsscoj/master
 sequelize.sync({ force: true });
 
 fs

@@ -35,11 +35,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
   register_time: {
     type: DataTypes.DATE,
     allowNull: false,
-<<<<<<< HEAD
-    defaultValue: 'CURRENT_TIMESTAMP',
-=======
     defaultValue: Sequelize.NOW,
->>>>>>> lsscoj/master
   },
   quote: {
     type: DataTypes.STRING(200),
