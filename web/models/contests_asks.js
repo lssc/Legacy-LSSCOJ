@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => sequelize.define('contests_asks', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  username: {
-    type: DataTypes.STRING(20),
+  user_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
   },
   question: {

@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user_system_msg', {
     type: DataTypes.STRING(300),
     allowNull: false,
   },
-  receiver: {
-    type: DataTypes.STRING(20),
+  receiver_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
   },
   send_time: {

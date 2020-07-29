@@ -11,12 +11,15 @@ const sess = {
 };
 
 const indexRouter = require('./routes/index');
+const adminRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
 const problemsRouter = require('./routes/problems');
 const contestsRouter = require('./routes/contests');
 const submissionsRouter = require('./routes/submissions');
 const hacksRouter = require('./routes/hacks');
 const judgeRouter = require('./routes/judge');
+
+const Admins = require('./models/index').admins;
 
 const app = express();
 
@@ -32,12 +35,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sess));
 
 app.use('/', indexRouter);
+app.use('/admin', adminRouter);
 app.use('/users', usersRouter);
 app.use('/problem', problemsRouter);
 app.use('/contest', contestsRouter);
 app.use('/submission', submissionsRouter);
 app.use('/hack', hacksRouter);
 app.use('/judge', judgeRouter);
+
+// check whether current user has admin authority
+app.use((req, res, next) => {
+  if(req.session.user_id){
+    Admins.findOne({
+      where: {user_id: req.session.user_id},
+    })
+    .then(user => {
+      if(user)req.isAdmin = true;
+      next();
+    })
+    .catch(err => { throw err; });
+  }
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

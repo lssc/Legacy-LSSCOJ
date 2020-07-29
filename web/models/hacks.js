@@ -17,12 +17,12 @@ module.exports = (sequelize, DataTypes) => sequelize.define('hacks', {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
   },
-  hacker: {
-    type: DataTypes.STRING(20),
+  hacker_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
   },
-  owner: {
-    type: DataTypes.STRING(20),
+  owner_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
   },
   input: {

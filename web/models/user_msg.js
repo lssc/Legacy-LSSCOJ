@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user_msg', {
     autoIncrement: true,
   },
   sender: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
   },
-  receiver: {
-    type: DataTypes.STRING(20),
+  receiver_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
   },
   message: {
