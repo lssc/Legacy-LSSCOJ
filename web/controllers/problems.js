@@ -7,6 +7,7 @@ module.exports = {
     Problems.findAll()
       .then((problems) => {
         req.problems = problems;
+        console.log(problems);
         next();
       })
       .catch((err) => { throw err; });

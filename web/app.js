@@ -37,10 +37,10 @@ app.use(session(sess));
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/users', usersRouter);
-app.use('/problem', problemsRouter);
-app.use('/contest', contestsRouter);
-app.use('/submission', submissionsRouter);
-app.use('/hack', hacksRouter);
+app.use('/problems', problemsRouter);
+app.use('/contests', contestsRouter);
+app.use('/submissions', submissionsRouter);
+app.use('/hacks', hacksRouter);
 app.use('/judge', judgeRouter);
 
 // check whether current user has admin authority

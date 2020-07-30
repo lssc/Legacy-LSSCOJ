@@ -17,7 +17,7 @@ module.exports = {
     ProblemsPermissions.findOne({
       where: {
         problem_id: req.params.problem_id,
-        user_id: req.cookies.user_id,
+        user_id: req.session.user.id,
       },
     }).then((permission) => {
       if (permission)res.send('Permission denied!\nAsk problem creaters to give you permission.');
@@ -29,18 +29,16 @@ module.exports = {
   add(req, res, next) {
     ProblemsPermissions.findOne({
       where: {
-        problem_id: req.params.problem_id || req.problems.id,
-        user_id: req.body.user_id || req.cookies.user.id,
+        problem_id: req.params.problem_id || req.problem.id,
+        user_id: req.body.user_id || req.session.user.id,
       },
     }).then((existPermission) => {
       if (existPermission) {
         res.send('User already has permission!');
-      } else if (!req.problem_permission) {
-        res.send('You do not have permission to add user to permissions!');
       } else {
         ProblemsPermissions.create({
-          problem_id: req.params.problem_id || req.problems.id,
-          user_id: req.body.user_id || req.cookies.user.id,
+          problem_id: req.params.problem_id || req.problem.id,
+          user_id: req.body.user_id || req.session.user.id,
         })
           .then((permission) => {
             req.problem_permission = permission;

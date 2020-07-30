@@ -28,9 +28,9 @@ module.exports = {
   add(req, res, next) {
     Submissions.create({
       problem_id: req.params.problem_id,
-      contest: req.cookies.username,
+      contest: req.session.user.username,
       submit_time: Date.now(),
-      submitter_id: req.cookies.user_id,
+      submitter_id: req.session.user.id,
       content: req.body.content,
       language: 'C++',
       tot_size: req.content.length,

@@ -1,5 +1,5 @@
 const express = require('express');
-const UserInfo = require('../models/index').user_info;
+const UserInfo = require('../controllers/user_info');
 
 const router = express.Router();
 
@@ -10,57 +10,20 @@ router.get('/', (req, res) => {
 
 /* GET login & register page */
 router.get('/login', (req, res) => {
+  console.log(req.session.user);
   res.render('login');
 });
 
 /* POST login user */
-router.post('/login', (req, res) => {
-  const { username } = req.body;
-  const { password } = req.body;
-
-  UserInfo.findOne({
-    where: {
-      username,
-      password,
-    },
-  })
-    .then((user) => {
-      if (!user) {
-        res.send('Login failed');
-      } else {
-        req.session.username = username;
-        res.redirect('/');
-      }
-    })
-    .catch((error) => { throw error; });
+router.post('/login', UserInfo.login, (req, res) => {
+  console.log(req.session.user);
+  res.redirect('/');
 });
 
 /* POST registe user */
-router.post('/registes', (req, res) => {
-  const { username } = req.body;
-  const { email } = req.body;
-  const { password } = req.body;
-
-  UserInfo.findOne({
-    where: { username },
-  })
-    .then((user) => {
-      if (user) {
-        res.send('Username existed');
-      } else {
-        UserInfo.create({
-          username,
-          email,
-          password,
-        })
-          .then(() => {
-            require.session.username = username;
-            res.redirect('/');
-          })
-          .catch((err) => res.send(err));
-      }
-    })
-    .catch((err) => res.send(err));
+router.post('/registes', UserInfo.register, (req, res) => {
+  console.log(req.session.user);
+  res.redirect('/');
 });
 
 module.exports = router;

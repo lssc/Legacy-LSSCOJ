@@ -1,6 +1,7 @@
 const UserInfo = require('../models/index').user_info;
 
 module.exports = {
+
   /* List all users */
   list(req, res, next) {
     UserInfo.findAll()
@@ -23,8 +24,27 @@ module.exports = {
       .catch((err) => { throw err; });
   },
 
+  /* Login */
+  login(req, res, next) {
+    UserInfo.findOne({
+      where: {
+        username: req.body.username,
+        password: req.body.password,
+      },
+    })
+      .then((user) => {
+        if(!user){
+          res.send('Login failed!');
+        }else{
+          req.session.user = user;
+          next();
+        }
+      })
+      .catch((err) => { throw err; });
+  },
+
   /* Add a user account */
-  add(req, res, next) {
+  register(req, res, next) {
     UserInfo.create({
       username: req.body.username,
       email: req.body.email,
@@ -32,7 +52,7 @@ module.exports = {
       ac_num: 0,
     })
       .then((user) => {
-        req.user = user;
+        req.session.user = user;
         next();
       })
       .catch((err) => { throw err; });
@@ -46,7 +66,7 @@ module.exports = {
       .then((existUser) => {
         if (!existUser) {
           res.send('User not exist!');
-        } else if (existUser.id !== req.cookies.user_id) {
+        } else if (existUser.id !== req.session.user.id) {
           res.send('You cannot modify other person\'s informations!!!');
         } else {
           existUser.update({
@@ -71,7 +91,7 @@ module.exports = {
       .then((existUser) => {
         if (!existUser) {
           res.send('User not exist!');
-        } else if (existUser.id !== req.cookies.user_id) {
+        } else if (existUser.id !== req.session.user.id) {
           res.send('You cannot modify other person\'s informations!!!');
         } else {
           existUser.update()
