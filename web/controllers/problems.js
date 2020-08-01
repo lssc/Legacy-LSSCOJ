@@ -7,7 +7,7 @@ module.exports = {
     Problems.findAll()
       .then((problems) => {
         req.problems = problems;
-        console.log(problems);
+        console.log('List problems!');
         next();
       })
       .catch((err) => { throw err; });
@@ -29,9 +29,12 @@ module.exports = {
     Problems.create({
       title: req.body.title,
       statement: req.body.statement,
+      input: req.body.input,
+      output: req.body.output,
       hint: req.body.hint,
     })
       .then((problem) => {
+        console.log('Add problem!');
         req.problem = problem;
         next();
       })
@@ -46,12 +49,12 @@ module.exports = {
       .then((existProblem) => {
         if (!existProblem) {
           res.send('Problem is not exist!');
-        } else if (!req.problem_permission) {
-          res.send('You do not have permission to modify the problem!');
         } else {
           existProblem.update({
             title: req.body.title || existProblem.title,
             statement: req.body.statement || existProblem.statement,
+            input: req.body.input || existProblem.input,
+            output: req.body.output || existProblem.output,
             hint: req.body.hint || existProblem.hint,
           })
             .then((problem) => {
@@ -72,10 +75,8 @@ module.exports = {
       .then((existProblem) => {
         if (!existProblem) {
           res.send('Problem is not exist!');
-        } else if (!req.problem_permission) {
-          res.send('You do not have permission to delete the problem!');
         } else {
-          existProblem.delete()
+          existProblem.destroy()
             .then(() => next())
             .catch((err) => { throw err; });
         }

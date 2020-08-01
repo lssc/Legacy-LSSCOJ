@@ -84,7 +84,7 @@ module.exports = {
         if (!existSubmission) {
           res.send('Submission not exist!');
         } else {
-          existSubmission.delete()
+          existSubmission.destroy()
             .then(() => next())
             .catch((err) => { throw err; });
         }

@@ -1,14 +1,16 @@
 extends ../layout
 
 block content
-  h1(class='page-header text-center')= name
-  p(class='text-center') Memeory limit: ,Time-limit:
-  article(class='markdown')= content
+  h1(class='page-header text-center')= problem.title
+  span(class='text-center') Memeory limit: ,Time-limit:
+
+  h2 Statement
+  article(class='markdown')= problem.statement
 
   h3 Input
-  p= input
+  p= problem.input
   h3 Output
-  p= output
+  p= problem.output
 
   each example, index in examples
     h3=  'Example '+index

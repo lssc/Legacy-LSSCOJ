@@ -43,6 +43,12 @@ module.exports = {
       .catch((err) => { throw err; });
   },
 
+  logout(req, res, next){
+    req.session.user = undefined;
+    req.isAdmin = req.isLogin = false;
+    next();
+  },
+
   /* Add a user account */
   register(req, res, next) {
     UserInfo.create({
@@ -61,17 +67,22 @@ module.exports = {
   /* Modify user information */
   modify(req, res, next) {
     UserInfo.findOne({
-      where: { id: req.params.id },
+      where: { id: req.params.user_id },
     })
       .then((existUser) => {
         if (!existUser) {
           res.send('User not exist!');
         } else if (existUser.id !== req.session.user.id) {
           res.send('You cannot modify other person\'s informations!!!');
+        } else if (!req.isLogin) {
+          res.redirect('/login');
+        } else if (req.body.password !== '' && existUser.password !== req.body.old_password) {
+          res.send('Old Password Incorrect!');
         } else {
+          const new_password = (req.body.password === '')? existUser.password : req.body.password;
           existUser.update({
             username: req.body.username || existUser.username,
-            password: req.body.password || existUser.password,
+            password: new_password,
           })
             .then((user) => {
               req.user = user;
@@ -86,15 +97,17 @@ module.exports = {
   /* Remove a user account */
   remove(req, res, next) {
     UserInfo.findOne({
-      where: { id: req.params.id },
+      where: { id: req.params.user_id },
     })
       .then((existUser) => {
         if (!existUser) {
           res.send('User not exist!');
+        } else if (!req.isLogin) {
+          res.redirect('/login');
         } else if (existUser.id !== req.session.user.id) {
-          res.send('You cannot modify other person\'s informations!!!');
+          res.send('You cannot remove other person\'s account!!!');
         } else {
-          existUser.update()
+          existUser.destroy()
             .then(() => next())
             .catch((err) => { throw err; });
         }

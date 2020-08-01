@@ -24,9 +24,7 @@ module.exports = {
       .then((existSample) => {
         if (existSample) {
           res.send('Sample with this orrder has already exist!');
-        } else if (!req.problem_permission) {
-          res.send('You do not have permission to remove user from permission!');
-        } else {
+        }else {
           ProblemsSamples.create({
             problem_id: req.params.problem_id,
             order: req.body.order,
@@ -47,17 +45,16 @@ module.exports = {
   modify(req, res, next) {
     ProblemsSamples.findOne({
       where: {
+        id: req.params.sample_id,
         problem_id: req.params.problem_id,
-        order: req.params.order,
       },
     })
       .then((existSample) => {
         if (!existSample)res.send('Sample for the problem is not exist!');
-        else if (!req.problem_permission) {
-          res.send('You do not have permission to modify the sample!');
-        } else {
+        else {
           existSample.update({
-            input: req.body.input || existSample.output,
+            order: req.body.order || existSample.order,
+            input: req.body.input || existSample.input,
             output: req.body.output || existSample.output,
           })
             .then((sample) => {
@@ -80,10 +77,9 @@ module.exports = {
     })
       .then((existSample) => {
         if (!existSample)res.send('Sample for the problem is not exist!');
-        else if (!req.problem_permission) {
-          res.send('You do not have permission to remove the sample!');
-        } else {
-          existSample.delete()
+        else {
+          console.log(existSample);
+          existSample.destroy()
             .then(() => next())
             .catch((err) => { throw err; });
         }

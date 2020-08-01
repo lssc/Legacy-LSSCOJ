@@ -8,26 +8,25 @@ const router = express.Router();
 
 /* GET prblem set. */
 router.get('/', Problems.list, (req, res) => {
-  res.send(req.problems);
-});
-
-/* GET speficied problem */
-router.get('/:problem_id', Problems.retrieve, ProblemsSamples.list, ProblemsTags.list, (req, res) => {
-  /*res.render('problem/show', {
-    problem: req.problem,
-    examples: req.problem_samples,
-    tags: req.problem_tags,
-  });*/
-  res.send({
-    problem: req.problem,
-    examples: req.problem_samples,
-    tags: req.problem_tags,
+  res.render('problem/index', {
+    problems: req.problems,
+    isAdmin: req.isAdmin,
+    isLogin: req.isLogin,
+    cur_user: req.session.user,
   });
 });
 
 /* GET problem creating page */
 router.get('/create', (req, res) => {
-  res.render('problem/create');
+  if(req.isLogin){
+    res.render('problem/create', {
+      isAdmin: req.isAdmin,
+      isLogin: req.isLogin,
+      cur_user: req.session.user,
+    });
+  }else{
+    res.redirect('/login');
+  }
 });
 
 /* POST create request */
@@ -37,17 +36,18 @@ router.post('/create', Problems.add, ProblemsPermissions.add, (req, res) => {
 
 /* GET problem setting page */
 router.get('/:problem_id/settings', Problems.retrieve, ProblemsSamples.list, ProblemsTags.list, ProblemsPermissions.list, (req, res) => {
-  /*res.render('problem/settings', {
-    problem: req.problem,
-    examples: req.problem_samples,
-    tags: req.problem_tags,
-  });*/
-  res.send({
-    problem: req.problem,
-    examples: req.problem_samples,
-    tags: req.problem_tags,
-    permit: req.problem_permissions,
-  });
+  if(req.isLogin){
+    res.render('problem/settings', {
+      problem: req.problem,
+      examples: req.problem_samples,
+      tags: req.problem_tags,
+      isAdmin: req.isAdmin,
+      isLogin: req.isLogin,
+      cur_user: req.session.user,
+    });
+  }else{
+    res.redirect('/login');
+  }
 });
 
 /* POST modifies */
@@ -75,11 +75,30 @@ router.post('/:problem_id/createPermission/', ProblemsPermissions.check, Problem
 router.post('/:problem_id/deletePermission/:user_id', ProblemsPermissions.check, ProblemsPermissions.remove, (req, res) => {
   res.redirect(`/problems/${req.params.problem_id}/settings`);
 });
+router.post('/:problem_id/delete', ProblemsPermissions.check, Problems.remove, (req, res) => {
+  res.redirect(`/problems`);
+});
+
+/* GET speficied problem */
+router.get('/:problem_id', Problems.retrieve, ProblemsSamples.list, ProblemsTags.list, (req, res) => {
+  res.render('problem/show', {
+    problem: req.problem,
+    examples: req.problem_samples,
+    tags: req.problem_tags,
+    isAdmin: req.isAdmin,
+    isLogin: req.isLogin,
+    cur_user: req.session.user,
+  });
+});
 
 /* POST submit answer */
 router.post('/:problem_id', (req, res) => {
   if (req.session.user.id) {
-    res.redirect('/submission/create');
+    res.redirect('/submission/create', {
+      isAdmin: req.isAdmin,
+      isLogin: req.isLogin,
+      cur_user: req.session.user,
+    });
   } else {
     res.redirect('/login');
   }

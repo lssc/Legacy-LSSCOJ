@@ -33,6 +33,14 @@ module.exports = (sequelize, DataTypes) => sequelize.define('problems', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  input: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  output: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   hint: {
     type: DataTypes.TEXT,
     allowNull: true,

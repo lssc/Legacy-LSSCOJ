@@ -20,7 +20,7 @@ module.exports = {
         user_id: req.session.user.id,
       },
     }).then((permission) => {
-      if (permission)res.send('Permission denied!\nAsk problem creaters to give you permission.');
+      if (!permission)res.send('Permission denied!\nAsk problem creaters to give you permission.');
       else next();
     }).catch((err) => { throw err; });
   },
@@ -59,10 +59,8 @@ module.exports = {
     }).then((existPermission) => {
       if (existPermission) {
         res.send('User don\'t have permission!');
-      } else if (!req.problem_permission) {
-        res.send('You do not have permission to remove user from permission!');
       } else {
-        ProblemsPermissions.delete()
+        ProblemsPermissions.destroy()
           .then(() => next()).catch((err) => { throw err; });
       }
     }).catch((err) => { throw err; });

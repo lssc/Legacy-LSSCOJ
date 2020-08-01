@@ -7,10 +7,14 @@ block content
       tr
         th(scope='col') #
         th(scope='col') Problem
-        th(scope='col') Rate
     tbody
       each problem in problems
         tr
           th(scope='row')= problem.id
-          td= problem.title
-          td= problem.rate
+          td
+            a(href=`/problems/${problem.id}`)=problem.title
+  
+  h5 Create your own problem
+  form(action="/problems/create", method="get")
+    button(class='btn btn-primary') Go Create Problem
+        

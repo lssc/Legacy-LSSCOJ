@@ -107,7 +107,7 @@ module.exports = {
         } else if (!req.contest_permission) {
           res.send('You do not have permission to remove the contest!');
         } else {
-          existContest.delete()
+          existContest.destroy()
             .then(() => {
               next();
             })
