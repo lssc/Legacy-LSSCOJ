@@ -18,13 +18,13 @@ router.get('/', Problems.list, (req, res) => {
 
 /* GET problem creating page */
 router.get('/create', (req, res) => {
-  if(req.isLogin){
+  if (req.isLogin) {
     res.render('problem/create', {
       isAdmin: req.isAdmin,
       isLogin: req.isLogin,
       cur_user: req.session.user,
     });
-  }else{
+  } else {
     res.redirect('/login');
   }
 });
@@ -36,7 +36,7 @@ router.post('/create', Problems.add, ProblemsPermissions.add, (req, res) => {
 
 /* GET problem setting page */
 router.get('/:problem_id/settings', Problems.retrieve, ProblemsSamples.list, ProblemsTags.list, ProblemsPermissions.list, (req, res) => {
-  if(req.isLogin){
+  if (req.isLogin) {
     res.render('problem/settings', {
       problem: req.problem,
       examples: req.problem_samples,
@@ -45,7 +45,7 @@ router.get('/:problem_id/settings', Problems.retrieve, ProblemsSamples.list, Pro
       isLogin: req.isLogin,
       cur_user: req.session.user,
     });
-  }else{
+  } else {
     res.redirect('/login');
   }
 });
@@ -76,7 +76,7 @@ router.post('/:problem_id/deletePermission/:user_id', ProblemsPermissions.check,
   res.redirect(`/problems/${req.params.problem_id}/settings`);
 });
 router.post('/:problem_id/delete', ProblemsPermissions.check, Problems.remove, (req, res) => {
-  res.redirect(`/problems`);
+  res.redirect('/problems');
 });
 
 /* GET speficied problem */

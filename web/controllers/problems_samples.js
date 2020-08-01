@@ -24,7 +24,7 @@ module.exports = {
       .then((existSample) => {
         if (existSample) {
           res.send('Sample with this orrder has already exist!');
-        }else {
+        } else {
           ProblemsSamples.create({
             problem_id: req.params.problem_id,
             order: req.body.order,

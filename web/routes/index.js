@@ -19,13 +19,13 @@ router.get('/login', (req, res) => {
 
 /* POST login user */
 router.post('/login', UserInfo.login, (req, res) => {
-  console.log('login done')
+  console.log('login done');
   res.redirect('/');
 });
 
 /* POST logout user */
 router.post('/logout', UserInfo.logout, (req, res) => {
-  console.log('logout done')
+  console.log('logout done');
   res.redirect('/');
 });
 

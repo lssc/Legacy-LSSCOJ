@@ -33,9 +33,9 @@ module.exports = {
       },
     })
       .then((user) => {
-        if(!user){
+        if (!user) {
           res.send('Login failed!');
-        }else{
+        } else {
           req.session.user = user;
           next();
         }
@@ -43,9 +43,10 @@ module.exports = {
       .catch((err) => { throw err; });
   },
 
-  logout(req, res, next){
+  logout(req, res, next) {
     req.session.user = undefined;
-    req.isAdmin = req.isLogin = false;
+    req.isAdmin = false;
+    req.isLogin = false;
     next();
   },
 
@@ -79,10 +80,10 @@ module.exports = {
         } else if (req.body.password !== '' && existUser.password !== req.body.old_password) {
           res.send('Old Password Incorrect!');
         } else {
-          const new_password = (req.body.password === '')? existUser.password : req.body.password;
+          const newPassword = (req.body.password === '') ? existUser.password : req.body.password;
           existUser.update({
             username: req.body.username || existUser.username,
-            password: new_password,
+            password: newPassword,
           })
             .then((user) => {
               req.user = user;
