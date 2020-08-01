@@ -7,7 +7,6 @@ module.exports = {
     Problems.findAll()
       .then((problems) => {
         req.problems = problems;
-        console.log('List problems!');
         next();
       })
       .catch((err) => { throw err; });
@@ -34,7 +33,6 @@ module.exports = {
       hint: req.body.hint,
     })
       .then((problem) => {
-        console.log('Add problem!');
         req.problem = problem;
         next();
       })

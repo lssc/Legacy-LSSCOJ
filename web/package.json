@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "dev": "DEBUG=express:* DB_HOST=localhost DB_USER=lsscoj DB_PASS=CHANGE_THIS DB_NAME=lsscoj npm start",
-    "lint": "eslint --fix controllers/*.js"
+    "dev": "DEBUG=express:* DB_HOST=localhost DB_USER=lsscoj DB_PASS=CHANGE_THIS DB_NAME=lsscoj npm start"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

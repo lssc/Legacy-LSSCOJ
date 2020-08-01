@@ -78,7 +78,6 @@ module.exports = {
       .then((existSample) => {
         if (!existSample)res.send('Sample for the problem is not exist!');
         else {
-          console.log(existSample);
           existSample.destroy()
             .then(() => next())
             .catch((err) => { throw err; });
