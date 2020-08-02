@@ -40,12 +40,12 @@ app.use((req, res, next) => {
     Admins.findOne({
       where: { user_id: req.session.user.id },
     })
-      .then(user => {
+      .then((user) => {
         if (user) req.isAdmin = true;
         req.isLogin = true;
         next();
       })
-      .catch(err => { throw err; });
+      .catch((err) => { throw err; });
   } else {
     req.admin = false;
     req.isLogin = false;
@@ -61,7 +61,6 @@ app.use('/contests', contestsRouter);
 app.use('/submissions', submissionsRouter);
 app.use('/hacks', hacksRouter);
 app.use('/judge', judgeRouter);
-
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
