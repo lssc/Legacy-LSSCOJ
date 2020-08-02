@@ -37,18 +37,18 @@ app.use(session(sess));
 // check whether current user has admin authority
 app.use((req, res, next) => {
   console.log(req.session.user);
-  if(req.session.user){
+  if (req.session.user) {
     Admins.findOne({
-      where: {user_id: req.session.user.id},
+      where: { user_id: req.session.user.id },
     })
-    .then(user => {
-      console.log(user);
-      if(user)req.isAdmin = true;
-      req.isLogin = true;
-      next();
-    })
-    .catch(err => { throw err; });
-  }else{
+      .then(user => {
+        console.log(user);
+        if (user) req.isAdmin = true;
+        req.isLogin = true;
+        next();
+      })
+      .catch(err => { throw err; });
+  } else {
     req.admin = false;
     req.isLogin = false;
     next();
