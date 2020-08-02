@@ -19,7 +19,7 @@ const submissionsRouter = require('./routes/submissions');
 const hacksRouter = require('./routes/hacks');
 const judgeRouter = require('./routes/judge');
 
-const Admins = require('./models/index').admins;
+const adminController = require('./controllers/admin');
 
 const app = express();
 
@@ -35,23 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sess));
 
 // check whether current user has admin authority
-app.use((req, res, next) => {
-  if (req.session.user) {
-    Admins.findOne({
-      where: { user_id: req.session.user.id },
-    })
-      .then((user) => {
-        if (user) req.isAdmin = true;
-        req.isLogin = true;
-        next();
-      })
-      .catch((err) => { throw err; });
-  } else {
-    req.admin = false;
-    req.isLogin = false;
-    next();
-  }
-});
+app.use(adminController.check);
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);

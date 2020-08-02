@@ -7,7 +7,7 @@ block content
 
         div(class='card-body')
             form(action="./modify", method="post")
-                h3(class='card-title') modify problem
+                h3(class='card-title') Modify problem
                 div(class='form-group')
                     label(for='title') Title
                     input(type='text', class='form-control', id='title', name='title', value=problem.title, required)
@@ -28,7 +28,7 @@ block content
                 button(class='btn btn-danger') Delete Problem 
 
         div(class='card-body')
-            h3(class='card-title') modify samples
+            h3(class='card-title mb-auto') Modify samples
             each sample in examples
                 form(action=`./modifySample/${sample.id}`, method="post")
                     div(class='form-group')
@@ -38,12 +38,12 @@ block content
                         input(class='form-control', id='input', name='input', value=sample.input)
                         label(for="output") output
                         input(class='form-control', id='output', name='output', value=sample.output, required)
-                    button(class='btn btn-primary') Modify this sample
+                    button(class='btn btn-
+            brprimary') Modify this sample
                 form(action=`./deleteSample/${sample.id}`, method="post")
                     button(class='btn btn-danger') Delete this sample
 
-            br
-            h3(class='card-title') create sample
+            h3(class='card-title') Create sample
             form(action="./createSample", method="post")
                 div(class='form-group')
                     label(for="order") Order:
@@ -55,14 +55,13 @@ block content
                 button(class='btn btn-outline-primary') Create a sample
 
         div(class='card-body')
-            h3(class='card-title') modify tags
+            h3(class='card-title mb-auto') Modify tags
             each tag in tags
                 h5='tag '+tag.id+': '+tag.tag
                 form(action=`./deleteTag/${tag.id}`, method="post")
                     button(class='btn btn-danger') Delete this tag
 
-            br
-            h3(class='card-title') create tag
+            h3(class='card-title') Create tag
             form(action="./createTag", method="post")
                 div(class='form-group')
                     label(for="tag") Tag name:

@@ -12,6 +12,25 @@ module.exports = {
       .catch((err) => { throw err; });
   },
 
+  /* Check if the current user is admin */
+  check(req, res, next) {
+    if (req.session.user) {
+      Admins.findOne({
+        where: { user_id: req.session.user.id },
+      })
+        .then((user) => {
+          if (user) req.isAdmin = true;
+          req.isLogin = true;
+          next();
+        })
+        .catch((err) => { throw err; });
+    } else {
+      req.admin = false;
+      req.isLogin = false;
+      next();
+    }
+  },
+
   /* Add a user to admin list */
   add(req, res, next) {
     /* if(!req.isAdmin){
