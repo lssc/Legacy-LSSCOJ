@@ -1,10 +1,4 @@
 module.exports = (sequelize, DataTypes) => sequelize.define('problems_tags', {
-  id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
   problem_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -13,6 +7,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('problems_tags', {
   tag: {
     type: DataTypes.STRING(30),
     allowNull: false,
+    primaryKey: true,
   },
 }, {
   sequelize,

@@ -15,45 +15,31 @@ module.exports = {
   },
   /* Add a sample for the problem */
   add(req, res, next) {
-    ProblemsSamples.findOne({
-      where: {
-        problem_id: req.params.problem_id,
-        order: req.body.order,
-      },
+    ProblemsSamples.create({
+      problem_id: req.params.problem_id,
+      input: req.body.input,
+      output: req.body.output,
     })
-      .then((existSample) => {
-        if (existSample) {
-          res.send('Sample with this orrder has already exist!');
-        } else {
-          ProblemsSamples.create({
-            problem_id: req.params.problem_id,
-            order: req.body.order,
-            input: req.body.input,
-            output: req.body.output,
-          })
-            .then((sample) => {
-              req.problem_sample = sample;
-              next();
-            })
-            .catch((err) => { throw err; });
-        }
+      .then((sample) => {
+        req.problem_sample = sample;
+        next();
       })
-      .catch((err) => { throw err; });
+      .catch((err) => { throw err });
   },
   /* Modify a problem sample */
   /* You should check permissions first before modify. */
   modify(req, res, next) {
-    ProblemsSamples.findOne({
+    sample = ProblemsSamples.findOne({
       where: {
         id: req.params.sample_id,
         problem_id: req.params.problem_id,
       },
     })
       .then((existSample) => {
-        if (!existSample)res.send('Sample for the problem is not exist!');
-        else {
+        if (!existSample) {
+          res.send('Sample for the problem is not exist!');
+        } else {
           existSample.update({
-            order: req.body.order || existSample.order,
             input: req.body.input || existSample.input,
             output: req.body.output || existSample.output,
           })
@@ -66,6 +52,7 @@ module.exports = {
       })
       .catch((err) => { throw err; });
   },
+
   /* Remove a problem sample */
   /* You should check permissions first before remove. */
   remove(req, res, next) {
@@ -76,8 +63,9 @@ module.exports = {
       },
     })
       .then((existSample) => {
-        if (!existSample)res.send('Sample for the problem is not exist!');
-        else {
+        if (!existSample) {
+          res.send('Sample for the problem is not exist!');
+        } else {
           existSample.destroy()
             .then(() => next())
             .catch((err) => { throw err; });

@@ -10,10 +10,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('problems_samples', 
     allowNull: false,
     primaryKey: true,
   },
-  order: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
   input: {
     type: DataTypes.TEXT,
     allowNull: true,

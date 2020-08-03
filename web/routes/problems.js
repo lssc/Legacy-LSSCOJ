@@ -66,7 +66,7 @@ router.post('/:problem_id/deleteSample/:sample_id', ProblemsPermissions.check, P
 router.post('/:problem_id/createTag/', ProblemsPermissions.check, ProblemsTags.add, (req, res) => {
   res.redirect(`/problems/${req.params.problem_id}/settings`);
 });
-router.post('/:problem_id/deleteTag/:tag_id', ProblemsPermissions.check, ProblemsTags.remove, (req, res) => {
+router.post('/:problem_id/deleteTag/:tag', ProblemsPermissions.check, ProblemsTags.remove, (req, res) => {
   res.redirect(`/problems/${req.params.problem_id}/settings`);
 });
 router.post('/:problem_id/createPermission/', ProblemsPermissions.check, ProblemsPermissions.add, (req, res) => {

@@ -31,8 +31,8 @@ module.exports = {
   remove(req, res, next) {
     ProblemsTags.findOne({
       where: {
-        id: req.params.tag_id,
         problem_id: req.params.problem_id,
+        tag: req.params.tag,
       },
     })
       .then((existTag) => {
