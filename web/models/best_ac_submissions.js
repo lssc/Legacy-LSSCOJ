@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => sequelize.define('best_ac_submissions
     allowNull: false,
     primaryKey: true,
   },
-  submitter: {
-    type: DataTypes.STRING(20),
+  submitter_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
     primaryKey: true,
   },

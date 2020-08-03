@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => sequelize.define('blogs', {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  poster: {
-    type: DataTypes.STRING(20),
+  poster_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
   },
   content_md: {

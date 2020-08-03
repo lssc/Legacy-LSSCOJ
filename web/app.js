@@ -11,12 +11,15 @@ const sess = {
 };
 
 const indexRouter = require('./routes/index');
+const adminRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
 const problemsRouter = require('./routes/problems');
 const contestsRouter = require('./routes/contests');
 const submissionsRouter = require('./routes/submissions');
 const hacksRouter = require('./routes/hacks');
 const judgeRouter = require('./routes/judge');
+
+const adminController = require('./controllers/admin');
 
 const app = express();
 
@@ -31,12 +34,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sess));
 
+// check whether current user has admin authority
+app.use(adminController.check);
+
 app.use('/', indexRouter);
+app.use('/admin', adminRouter);
 app.use('/users', usersRouter);
-app.use('/problem', problemsRouter);
-app.use('/contest', contestsRouter);
-app.use('/submission', submissionsRouter);
-app.use('/hack', hacksRouter);
+app.use('/problems', problemsRouter);
+app.use('/contests', contestsRouter);
+app.use('/submissions', submissionsRouter);
+app.use('/hacks', hacksRouter);
 app.use('/judge', judgeRouter);
 
 // catch 404 and forward to error handler

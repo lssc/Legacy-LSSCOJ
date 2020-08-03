@@ -1,0 +1,68 @@
+extends ../layout
+
+block content
+
+    h1=`Setup ${problem.title}`
+    div(class='card-group')
+
+        div(class='card-body')
+            form(action="./modify", method="post")
+                h3(class='card-title') Modify problem
+                div(class='form-group')
+                    label(for='title') Title
+                    input(type='text', class='form-control', id='title', name='title', value=problem.title, required)
+                div(class='form-group')
+                    label(for='statement') Statement
+                    textarea(class='form-control', id='statement', name='statement', required)=problem.statement
+                div(class='form-group')
+                    label(for='input') Input
+                    textarea(class='form-control', id='input', name='input')=problem.input
+                div(class='form-group')
+                    label(for='output') Output
+                    textarea(class='form-control', id='output', name='output', required)=problem.output
+                div(class='form-group')
+                    label(for='hint') Hint
+                    textarea(class='form-control', id='hint', name='hint')=problem.hint
+                button(class='btn btn-primary') Modify Problem
+            form(action="./delete", method="post")
+                button(class='btn btn-danger') Delete Problem 
+
+        div(class='card-body')
+            h3(class='card-title mb-auto') Modify samples
+            each sample, key in examples
+                h5=`sample ${key+1}: `
+                form(action=`./modifySample/${sample.id}`, method="post")
+                    div(class='form-group')
+                        label(for="input") input
+                        input(class='form-control', id='input', name='input', value=sample.input)
+                        label(for="output") output
+                        input(class='form-control', id='output', name='output', value=sample.output, required)
+                    button(class='btn btn-primary') Modify this sample
+                form(action=`./deleteSample/${sample.id}`, method="post")
+                    button(class='btn btn-danger') Delete this sample
+
+            h3(class='card-title') Create sample
+            form(action="./createSample", method="post")
+                div(class='form-group')
+                    label(for="input") input:
+                    input(class='form-control', id='input', name='input')
+                    label(for="output") output:
+                    input(class='form-control', id='output', name='output', required)
+                button(class='btn btn-outline-primary') Create a sample
+
+        div(class='card-body')
+            h3(class='card-title mb-auto') Modify tags
+            each tag, key in tags
+                h5=`tag ${key+1}: ${tag.tag}`
+                form(action=`./deleteTag/${tag.tag}`, method="post")
+                    button(class='btn btn-danger') Delete this tag
+
+            h3(class='card-title') Create tag
+            form(action="./createTag", method="post")
+                div(class='form-group')
+                    label(for="tag") Tag name:
+                    input(class='form-control', id='tag', name='tag', required)
+                button(class='btn btn-outline-primary') Create a Tag
+                
+
+

@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => sequelize.define('custom_test_submiss
     type: DataTypes.DATE,
     allowNull: false,
   },
-  submitter: {
-    type: DataTypes.STRING(20),
+  submitter_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
   },
   content: {

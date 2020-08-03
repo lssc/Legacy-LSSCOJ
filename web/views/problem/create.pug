@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+
+    div(class='row')
+    div(class='col')
+      div(class='card')
+        div(class='card-body')
+          h5(class='card-title') Create Problem
+          form(method='post')
+            div(class='form-group')
+              label(for='username') Title
+              input(type='text', class='form-control', id='username', name='title', required)
+            div(class='form-group')
+              label(for='statement') Statement
+              textarea(class='form-control', id='statement', name='statement', required)
+            div(class='form-group')
+              label(for='input') Input
+              textarea(class='form-control', id='input', name='input')
+            div(class='form-group')
+              label(for='output') Output
+              textarea(class='form-control', id='output', name='output', required)
+            div(class='form-group')
+              label(for='hint') Hint
+              textarea(class='form-control', id='hint', name='hint')
+            button(type='submit', class='btn btn-primary') Create

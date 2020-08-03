@@ -24,7 +24,7 @@ sequelize.authenticate().then(() => {
   process.exit(1);
 });
 
-sequelize.sync({ force: true });
+sequelize.sync();
 
 fs
   .readdirSync(__dirname)

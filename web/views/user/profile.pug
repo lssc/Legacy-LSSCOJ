@@ -2,7 +2,18 @@ extends ../layout
 
 block content
   h1= profile.username
+  h2 Email
+  p= profile.email
   h2 Rating
   p= profile.rating
-  h2 Motto
-  0= profile.motto
+  h2 Is Admin
+  if isAdmin
+    p true
+  else
+    p false
+
+  if (isLogin) && (profile.id == cur_user.id)
+    form(action=`./${cur_user.id}/edit`, method="get")
+      button(class='btn btn-primary') Edit Profile
+    form(action="/logout", method="post")
+      button(class='btn btn-danger') Log Out

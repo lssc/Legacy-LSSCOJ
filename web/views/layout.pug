@@ -19,16 +19,21 @@ html
       div(class='collapse navbar-collapse', id='navbarSupportedContent')
         ul(class='navbar-nav mr-auto')
           li(class='nav-item')
-           a(class='nav-link', href='/contest') Contests
+           a(class='nav-link', href='/contests') Contests
           li(class='nav-item')
-           a(class='nav-link', href='/problem') Problemset
+           a(class='nav-link', href='/problems') Problemset
           li(class='nav-item')
-           a(class='nav-link', href='/submission') Submissions
+           a(class='nav-link', href='/submissions') Submissions
           li(class='nav-item')
-           a(class='nav-link', href='/hack') Hacks
-        ul(class='navbar-nav')
-          li(class='nav-item')
-           a(class='nav-link', href='/login') Login / Register
+           a(class='nav-link', href='/hacks') Hacks
+        if isLogin
+          ul(class='navbar-nav')
+            li(class='nav-item')
+            a(class='nav-link', href=`/users/${cur_user.id}`)=cur_user.username
+        else
+          ul(class='navbar-nav')
+            li(class='nav-item')
+            a(class='nav-link', href='/login') Login / Register
 
     main(class='container p-3')
       block content

@@ -2,7 +2,7 @@
   "name": "lsscoj",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon ./bin/www",
     "dev": "DEBUG=express:* DB_HOST=localhost DB_USER=lsscoj DB_PASS=CHANGE_THIS DB_NAME=lsscoj npm start"
   },
   "dependencies": {
@@ -13,6 +13,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
+    "nodemon": "^2.0.4",
     "pug": "^3.0.0",
     "sequelize": "^6.3.2",
     "sequelize-cli": "^6.2.0"

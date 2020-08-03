@@ -26,6 +26,8 @@ router.get('/', (req, res) => {
     res.render('contest/index', {
       active_contests: active,
       passed_contests: passed,
+      isLogin: req.isLogin,
+      cur_username: req.session.user.username,
     });
   })
     .catch((error) => { throw error; });
@@ -81,6 +83,8 @@ router.get('/:id/standings', (req, res) => {
     res.render('contest/standings', {
       problem,
       users,
+      isLogin: req.isLogin,
+      cur_username: req.session.user.username,
     });
   })
     .catch((error) => { throw error; });
