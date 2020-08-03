@@ -24,12 +24,12 @@ module.exports = {
         req.problem_sample = sample;
         next();
       })
-      .catch((err) => { throw err });
+      .catch((err) => { throw err; });
   },
   /* Modify a problem sample */
   /* You should check permissions first before modify. */
   modify(req, res, next) {
-    sample = ProblemsSamples.findOne({
+    ProblemsSamples.findOne({
       where: {
         id: req.params.sample_id,
         problem_id: req.params.problem_id,

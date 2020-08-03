@@ -36,7 +36,7 @@ module.exports = {
         if (!user) {
           res.send('Login failed!');
         } else {
-          isLogin = true;
+          req.isLogin = true;
           req.session.user = user;
           next();
         }
