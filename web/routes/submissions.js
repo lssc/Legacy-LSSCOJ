@@ -7,7 +7,7 @@ const router = express.Router();
 
 /* GET submission list. */
 router.get('/', Submissions.list, async (req, res) => {
-  var names = req.submissions.map(async (submission) => {
+  const names = req.submissions.map(async (submission) => {
     req.params.user_id = submission.submitter_id;
     req.params.problem_id = submission.problem_id;
     submission.submitter = (await UserInfo.retrieve(req, res)).username;
@@ -21,7 +21,7 @@ router.get('/', Submissions.list, async (req, res) => {
       isLogin: req.isLogin,
       cur_user: req.session.user,
     });
-  })
+  });
 });
 
 /* GET submission detail */
