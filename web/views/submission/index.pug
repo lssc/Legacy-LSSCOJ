@@ -37,8 +37,8 @@ block content
             td
               a(href=`/users/${submission.submitter_id}`)= submission.submitter
             td= submission.result
-            td= submission.time || '------'
-            td= submission.memory || '------'
+            td= submission.time || '--:--:--'
+            td= submission.memory || '--:--:--'
             td= submission.language
             td= submission.tot_size
             td= submission.submit_time
