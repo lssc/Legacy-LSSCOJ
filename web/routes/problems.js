@@ -3,6 +3,7 @@ const Problems = require('../controllers/problems');
 const ProblemsPermissions = require('../controllers/problems_permissions');
 const ProblemsSamples = require('../controllers/problems_samples');
 const ProblemsTags = require('../controllers/problems_tags');
+const Submissions = require('../controllers/submissions');
 
 const router = express.Router();
 
@@ -92,16 +93,8 @@ router.get('/:problem_id', Problems.retrieve, ProblemsSamples.list, ProblemsTags
 });
 
 /* POST submit answer */
-router.post('/:problem_id', (req, res) => {
-  if (req.session.user.id) {
-    res.redirect('/submission/create', {
-      isAdmin: req.isAdmin,
-      isLogin: req.isLogin,
-      cur_user: req.session.user,
-    });
-  } else {
-    res.redirect('/login');
-  }
+router.post('/:problem_id', Submissions.add, (req, res) => {
+  res.redirect('/submissions');
 });
 
 /* GET problem */

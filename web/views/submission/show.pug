@@ -17,16 +17,18 @@ block content
         th Judge time
     tbody
       tr
-        th #123
-        td #500
-        td Somebody
-        td 100
-        td 1000ms
-        td 50MB
-        td C++
-        td 3kb
-        td Somewhen
-        td somewhen
+        th(scope='row')
+          a(href=`/submissions/${submission.id}`)= submission.id
+        td
+          a(href=`/problems/${submission.problem_id}`)= submission.problemTitle
+        td
+          a(href=`/users/${submission.submitter_id}`)= submission.submitter
+        td= submission.result
+        td= submission.time || '--'
+        td= submission.memory || '--'
+        td= submission.language
+        td= submission.tot_size
+        td= submission.submit_time
 
   textarea(class='code-area', disabled) Code here
   

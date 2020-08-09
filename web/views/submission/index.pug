@@ -30,12 +30,15 @@ block content
       tbody
         each submission in submissions
           tr
-            th(scope='row')= submission.id
-            td= submission.problem
-            td= submission.submitter
+            th(scope='row')
+              a(href=`/submissions/${submission.id}`)= submission.id
+            td
+              a(href=`/problems/${submission.problem_id}`)= submission.problemTitle
+            td
+              a(href=`/users/${submission.submitter_id}`)= submission.submitter
             td= submission.result
-            td= submission.time
-            td= submission.memory
+            td= submission.time || '------'
+            td= submission.memory || '------'
             td= submission.language
-            td= submission.file_size
+            td= submission.tot_size
             td= submission.submit_time
