@@ -12,15 +12,17 @@ module.exports = {
       .catch((err) => { throw err; });
   },
   /* Find one problem */
-  retrieve(req, res, next) {
-    Problems.findOne({
+  async retrieve(req, res, next) {
+    const ret = Problems.findOne({
       where: { id: req.params.problem_id },
     })
       .then((problem) => {
-        if (problem)req.problem = problem;
-        next();
+        req.problem = problem;
+        if (next) next();
+        return problem;
       })
       .catch((err) => { throw err; });
+    return ret;
   },
   /* Add a problem */
   /* Remember to add permission */

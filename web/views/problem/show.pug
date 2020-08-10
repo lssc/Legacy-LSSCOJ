@@ -19,7 +19,14 @@ block content
     h4 Output
     pre= example.output
 
+  h1(class='page-header text-center') Submit Answer Here
   form(method='post')
+    lable(for="language") Language
+    select(id="language", name="language")
+      option(value="c") C
+      option(value="c++") C++
+      option(value="python") Python
+      option(value="java") Java
     div(class='form-group')
-      textarea(class='form-control code-area')
+      textarea(class='form-control code-area', name='content')
     button(type='submit', class='btn btn-primary') Submit

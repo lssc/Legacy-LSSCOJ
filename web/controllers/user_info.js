@@ -13,15 +13,17 @@ module.exports = {
   },
 
   /* Get the user's detail */
-  retrieve(req, res, next) {
-    UserInfo.findOne({
+  async retrieve(req, res, next) {
+    const ret = UserInfo.findOne({
       where: { id: req.params.user_id },
     })
       .then((user) => {
         req.user = user;
-        next();
+        if (next) next();
+        return user;
       })
       .catch((err) => { throw err; });
+    return ret;
   },
 
   /* Login */
