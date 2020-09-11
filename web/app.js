@@ -13,11 +13,11 @@ const sess = {
 const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
-const usersRouter = require('./routes/users');
-const problemsRouter = require('./routes/problems');
-const contestsRouter = require('./routes/contests');
-const submissionsRouter = require('./routes/submissions');
-const hacksRouter = require('./routes/hacks');
+const userRouter = require('./routes/user');
+const problemRouter = require('./routes/problem');
+const contestRouter = require('./routes/contest');
+const submissionRouter = require('./routes/submission');
+const hackRouter = require('./routes/hack');
 const judgeRouter = require('./routes/judge');
 
 const adminController = require('./controllers/admin');
@@ -47,11 +47,11 @@ app.use(adminController.check);
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
-app.use('/users', usersRouter);
-app.use('/problems', problemsRouter);
-app.use('/contests', contestsRouter);
-app.use('/submissions', submissionsRouter);
-app.use('/hacks', hacksRouter);
+app.use('/user', userRouter);
+app.use('/problem', problemRouter);
+app.use('/contest', contestRouter);
+app.use('/submission', submissionRouter);
+app.use('/hack', hackRouter);
 app.use('/judge', judgeRouter);
 
 // catch 404 and forward to error handler

@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const BlogTagSchema = new Schema(
   {
     name: { type: String, required: true },
-    blog: { type: Schema.Types.ObjectId, required: true },
+    post: { type: Schema.Types.ObjectId, ref: 'BlogPost', required: true },
   },
 );
 

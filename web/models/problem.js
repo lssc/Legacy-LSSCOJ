@@ -18,6 +18,6 @@ const ProblemSchema = new Schema(
 
 ProblemSchema
   .virtual('url')
-  .get(() => `/problems/${this._id}`);
+  .get(() => `/problem/${this._id}`);
 
 module.exports = mongoose.model('Problem', ProblemSchema);
