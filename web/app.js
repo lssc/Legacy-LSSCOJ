@@ -10,6 +10,7 @@ const sess = {
   secret: 'CHANGE_THS_OPTIONAL',
 };
 
+const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
@@ -22,6 +23,13 @@ const judgeRouter = require('./routes/judge');
 const adminController = require('./controllers/admin');
 
 const app = express();
+
+// MongoDB Setup
+const mongoDB = process.env.DATABASE_URL;
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,24 +1,12 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('problems_samples', {
-  id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const ProblemSampleSchema = new Schema(
+  {
+    input: { type: String, required: true },
+    output: { type: String, required: true },
   },
-  problem_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-  },
-  input: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  output: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  tableName: 'problems_samples',
-});
+);
+
+module.exports = mongoose.model(ProblemSampleSchema);

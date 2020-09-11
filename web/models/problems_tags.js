@@ -1,15 +1,12 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('problems_tags', {
-  problem_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const ProblemTagSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    problems: [{ type: Schema.Types.ObjectId, ref: 'Problem' }],
   },
-  tag: {
-    type: DataTypes.STRING(30),
-    allowNull: false,
-    primaryKey: true,
-  },
-}, {
-  sequelize,
-  tableName: 'problems_tags',
-});
+);
+
+module.exports = mongoose.model('ProblemTag', ProblemTagSchema);

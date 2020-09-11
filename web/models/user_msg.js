@@ -1,31 +1,15 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('user_msg', {
-  id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const UserMsgSchema = new Schema(
+  {
+    sender: { types: Schema.Types.ObjectId, ref: 'UserInfo', required: true },
+    receiver: { type: Schema.Types.ObjectId, ref: 'UserInfo', required: true },
+    message: { types: String, maxlength: 5000, required: true },
+    sned_time: { types: Date, default: Date.now },
+    read_time: { types: Date },
   },
-  sender_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-  },
-  receiver_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-  },
-  message: {
-    type: DataTypes.STRING(5000),
-    allowNull: false,
-  },
-  send_time: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  read_time: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-}, {
-  sequelize,
-  tableName: 'user_msg',
-});
+);
+
+module.exports = mongoose.model('UserMsg', UserMsgSchema);

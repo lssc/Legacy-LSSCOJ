@@ -1,18 +1,15 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('judger_info', {
-  judger_name: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    primaryKey: true,
+const mongoose = require('mongoose');
+const { model } = require('./hacks');
+
+const { Schema } = mongoose;
+
+const JudgerInfoSchema = new Schema(
+  {
+    password: { type: String, required: true },
+    ip: { type: String, required: true },
+    last_ping: { type: Date },
+    status: { type: String, enum: ['IDLE', 'BUSY', 'DOWN'], required: true },
   },
-  password: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-  },
-  ip: {
-    type: DataTypes.CHAR(20),
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  tableName: 'judger_info',
-});
+);
+
+model.exports = mongoose.model('JudgerInfo', JudgerInfoSchema);

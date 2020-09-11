@@ -1,19 +1,12 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('blogs_tags', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const BlogTagSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    blog: { type: Schema.Types.ObjectId, required: true },
   },
-  blog_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  tag: {
-    type: DataTypes.STRING(30),
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  tableName: 'blogs_tags',
-});
+);
+
+module.exports = mongoose.model('BlogTag', BlogTagSchema);

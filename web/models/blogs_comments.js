@@ -1,35 +1,14 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('blogs_comments', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const BlogCommentSchema = new Schema(
+  {
+    blog: { type: Schema.Types.ObjectId, ref: 'Blog', required: true },
+    content: { type: String, required: true },
+    post_time: { type: Date, default: Date.now },
+    user_like: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
   },
-  blog_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  post_time: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  poster_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-  },
-  zan: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  reply_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  tableName: 'blogs_comments',
-});
+);
+
+module.exports = mongoose.model('BlogComment', BlogCommentSchema);

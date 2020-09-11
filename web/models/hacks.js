@@ -1,59 +1,19 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('hacks', {
-  id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const HackSchema = new Schema(
+  {
+    problem: { type: Schema.Types.ObjectId, ref: 'Problem', required: true },
+    submission: { type: Schema.Types.ObjectId, ref: 'Submission', required: true },
+    hacker: { type: Schema.Types.ObjectId, ref: 'UserInfo', required: true },
+    owner: { type: Schema.Types.ObjectId, ref: 'UserInfo', required: true },
+    input: { type: String, required: true },
+    submit_time: { type: Date, default: Date.now },
+    judge_time: { type: Date },
+    success: { type: Boolean },
+    details: { type: String },
   },
-  problem_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-  },
-  contest_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: true,
-  },
-  submission_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-  },
-  hacker_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-  },
-  owner_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-  },
-  input: {
-    type: DataTypes.STRING(150),
-    allowNull: false,
-  },
-  input_type: {
-    type: DataTypes.CHAR(20),
-    allowNull: false,
-  },
-  submit_time: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  judge_time: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  success: {
-    type: DataTypes.INTEGER(1),
-    allowNull: true,
-  },
-  details: {
-    type: 'BLOB',
-    allowNull: false,
-  },
-  is_hidden: {
-    type: DataTypes.INTEGER(1),
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  tableName: 'hacks',
-});
+);
+
+module.exports = mongoose.model('Hack', HackSchema);

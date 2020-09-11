@@ -1,21 +1,14 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('contests_notice', {
-  contest_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const ContestAnnounceSchema = new Schema(
+  {
+    contest: { type: Schema.Types.ObjectId, ref: 'Contest', required: true },
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    announce_time: { type: Date, default: Date.now },
   },
-  title: {
-    type: DataTypes.STRING(30),
-    allowNull: false,
-  },
-  content: {
-    type: DataTypes.STRING(500),
-    allowNull: false,
-  },
-  time: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  tableName: 'contests_notice',
-});
+);
+
+module.exports = mongoose.model('ContestAnnounce', ContestAnnounceSchema);

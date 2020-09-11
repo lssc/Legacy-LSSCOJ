@@ -1,39 +1,18 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('contests', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const ContestSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    start_time: { type: Date, required: true },
+    end_time: { type: Date, required: true },
+    status: { type: String },
+    problem: [{ type: Schema.Types.ObjectId, ref: 'Problem' }],
+    manager: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
+    registrant: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
+    user_like: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
   },
-  name: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-  },
-  start_time: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  last_min: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  player_num: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  status: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-  },
-  extra_config: {
-    type: DataTypes.STRING(200),
-    allowNull: false,
-  },
-  zan: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  tableName: 'contests',
-});
+);
+
+module.exports = mongoose.model('Contest', ContestSchema);

@@ -1,51 +1,23 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('problems', {
-  id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const ProblemSchema = new Schema(
+  {
+    title: { type: String, required: true },
+    statement: { type: String, required: true },
+    input_description: { type: String, required: true },
+    output_description: { type: String, required: true },
+    samples: [{ type: Schema.Types.ObjectId, ref: 'ProblemSample' }],
+    hint: { type: String },
+    is_hidden: { type: Boolean, default: true },
+    hackable: { type: Boolean, default: true },
+    editors: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
   },
-  title: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  is_hidden: {
-    type: DataTypes.INTEGER(1),
-    allowNull: false,
-    defaultValue: '0',
-  },
-  hackable: {
-    type: DataTypes.INTEGER(1),
-    allowNull: false,
-    defaultValue: '0',
-  },
-  ac_num: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: '0',
-  },
-  submit_num: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: '0',
-  },
-  statement: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  input: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  output: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  hint: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-}, {
-  sequelize,
-  tableName: 'problems',
-});
+);
+
+ProblemSchema
+  .virtual('url')
+  .get(() => `/problems/${this._id}`);
+
+module.exports = mongoose.model('Problem', ProblemSchema);

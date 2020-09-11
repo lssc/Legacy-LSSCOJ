@@ -1,48 +1,22 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-module.exports = (sequelize, DataTypes) => sequelize.define('user_info', {
-  id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const { Schema } = mongoose;
+
+const UserInfoSchema = new Schema(
+  {
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    current_contest: { type: Schema.Types.ObjectId, ref: 'Contest' },
+    rating: { type: Number },
+    register_time: { type: Date, default: Date.now },
+    quote: { type: String, default: '' },
+    is_admin: { type: String, default: false },
   },
-  username: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-  },
-  password: {
-    type: DataTypes.CHAR(32),
-    allowNull: false,
-  },
-  current_contest_id: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-  rating: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: '1500',
-  },
-  ac_num: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  register_time: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.NOW,
-  },
-  quote: {
-    type: DataTypes.STRING(200),
-    allowNull: false,
-    defaultValue: '',
-  },
-}, {
-  sequelize,
-  tableName: 'user_info',
-});
+);
+
+UserInfoSchema
+  .virtual('url')
+  .get(() => `/user/${this._id}`);
+
+module.exports = mongoose.model('UserInfo', UserInfoSchema);

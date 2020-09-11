@@ -1,77 +1,27 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('submissions', {
-  id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const SubmissionSchema = new Schema(
+  {
+    problem: { type: Schema.Types.ObjectId, ref: 'Problem', required: true },
+    contest: { type: Schema.Types.ObjectId, ref: 'Contest' },
+    submit_time: { type: Date, default: Date.now },
+    submitter: { type: Schema.Types.ObjectId, ref: 'UserInfo', required: true },
+    code: { type: String, required: true },
+    language: { type: String, enum: ['C', 'C++', 'Java', 'Python'], required: true },
+    judge_time: { type: Date },
+    result: { type: String, enum: ['ACCEPT', 'WAITING', 'FAILED'], default: 'WAITING' },
+    status: { type: String },
+    score: { type: Number },
+    used_time: { type: Number },
+    used_memory: { type: Number },
+    is_hidden: { type: Boolean, default: false },
   },
-  problem_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-  },
-  contest_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: true,
-  },
-  submit_time: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  submitter_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false,
-  },
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  language: {
-    type: DataTypes.STRING(15),
-    allowNull: false,
-  },
-  tot_size: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  judge_time: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  result: {
-    type: 'BLOB',
-    allowNull: false,
-  },
-  status: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
-  },
-  result_error: {
-    type: DataTypes.STRING(20),
-    allowNull: true,
-  },
-  score: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-  used_time: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: '0',
-  },
-  used_memory: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: '0',
-  },
-  is_hidden: {
-    type: DataTypes.INTEGER(1),
-    allowNull: false,
-  },
-  status_details: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  tableName: 'submissions',
-});
+);
+
+SubmissionSchema
+  .virtual('total_size')
+  .get(() => this.code.length);
+
+module.exports = mongoose.model('Submission', SubmissionSchema);
