@@ -31,11 +31,11 @@ block content
         each submission in submissions
           tr
             th(scope='row')
-              a(href=`/submissions/${submission.id}`)= submission.id
+              a(href=`/submission/${submission.id}`)= submission.id
             td
-              a(href=`/problems/${submission.problem_id}`)= submission.problemTitle
+              a(href=`/problem/${submission.problem_id}`)= submission.problemTitle
             td
-              a(href=`/users/${submission.submitter_id}`)= submission.submitter
+              a(href=`/user/${submission.submitter_id}`)= submission.submitter
             td= submission.result
             td= submission.time || '--:--:--'
             td= submission.memory || '--:--:--'

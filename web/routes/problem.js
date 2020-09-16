@@ -1,6 +1,5 @@
 const express = require('express');
 const Problems = require('../controllers/problems');
-const ProblemsPermissions = require('../controllers/problems_permissions');
 const ProblemsSamples = require('../controllers/problems_samples');
 const ProblemsTags = require('../controllers/problems_tags');
 const Submissions = require('../controllers/submissions');
@@ -31,12 +30,12 @@ router.get('/create', (req, res) => {
 });
 
 /* POST create request */
-router.post('/create', Problems.add, ProblemsPermissions.add, (req, res) => {
-  res.redirect(`/problems/${req.problem.id}/settings`);
+router.post('/create', Problems.add, (req, res) => {
+  res.redirect(`/problem/${req.problem.id}/settings`);
 });
 
 /* GET problem setting page */
-router.get('/:problem_id/settings', Problems.retrieve, ProblemsSamples.list, ProblemsTags.list, ProblemsPermissions.list, (req, res) => {
+router.get('/:problem_id/settings', Problems.retrieve, ProblemsSamples.list, ProblemsTags.list, (req, res) => {
   if (req.isLogin) {
     res.render('problem/settings', {
       problem: req.problem,
@@ -52,32 +51,32 @@ router.get('/:problem_id/settings', Problems.retrieve, ProblemsSamples.list, Pro
 });
 
 /* POST modifies */
-router.post('/:problem_id/modify', ProblemsPermissions.check, Problems.modify, (req, res) => {
-  res.redirect(`/problems/${req.params.problem_id}/settings`);
+router.post('/:problem_id/modify', Problems.checkEditor, Problems.modify, (req, res) => {
+  res.redirect(`/problem/${req.params.problem_id}/settings`);
 });
-router.post('/:problem_id/createSample/', ProblemsPermissions.check, ProblemsSamples.add, (req, res) => {
-  res.redirect(`/problems/${req.params.problem_id}/settings`);
+router.post('/:problem_id/createSample/', Problems.checkEditor, ProblemsSamples.add, (req, res) => {
+  res.redirect(`/problem/${req.params.problem_id}/settings`);
 });
-router.post('/:problem_id/modifySample/:sample_id', ProblemsPermissions.check, ProblemsSamples.modify, (req, res) => {
-  res.redirect(`/problems/${req.params.problem_id}/settings`);
+router.post('/:problem_id/modifySample/:sample_id', Problems.checkEditor, ProblemsSamples.modify, (req, res) => {
+  res.redirect(`/problem/${req.params.problem_id}/settings`);
 });
-router.post('/:problem_id/deleteSample/:sample_id', ProblemsPermissions.check, ProblemsSamples.remove, (req, res) => {
-  res.redirect(`/problems/${req.params.problem_id}/settings`);
+router.post('/:problem_id/deleteSample/:sample_id', Problems.checkEditor, ProblemsSamples.remove, (req, res) => {
+  res.redirect(`/problem/${req.params.problem_id}/settings`);
 });
-router.post('/:problem_id/createTag/', ProblemsPermissions.check, ProblemsTags.add, (req, res) => {
-  res.redirect(`/problems/${req.params.problem_id}/settings`);
+router.post('/:problem_id/createTag/', Problems.checkEditor, ProblemsTags.add, (req, res) => {
+  res.redirect(`/problem/${req.params.problem_id}/settings`);
 });
-router.post('/:problem_id/deleteTag/:tag', ProblemsPermissions.check, ProblemsTags.remove, (req, res) => {
-  res.redirect(`/problems/${req.params.problem_id}/settings`);
+router.post('/:problem_id/deleteTag/:tag', Problems.checkEditor, ProblemsTags.remove, (req, res) => {
+  res.redirect(`/problem/${req.params.problem_id}/settings`);
 });
-router.post('/:problem_id/createPermission/', ProblemsPermissions.check, ProblemsPermissions.add, (req, res) => {
-  res.redirect(`/problems/${req.params.problem_id}/settings`);
+router.post('/:problem_id/createPermission/', Problems.checkEditor, Problems.addEditor, (req, res) => {
+  res.redirect(`/problem/${req.params.problem_id}/settings`);
 });
-router.post('/:problem_id/deletePermission/:user_id', ProblemsPermissions.check, ProblemsPermissions.remove, (req, res) => {
-  res.redirect(`/problems/${req.params.problem_id}/settings`);
+router.post('/:problem_id/deletePermission/:user_id', Problems.checkEditor, Problems.removeEditor, (req, res) => {
+  res.redirect(`/problem/${req.params.problem_id}/settings`);
 });
-router.post('/:problem_id/delete', ProblemsPermissions.check, Problems.remove, (req, res) => {
-  res.redirect('/problems');
+router.post('/:problem_id/delete', Problems.checkEditor, Problems.remove, (req, res) => {
+  res.redirect('/problem');
 });
 
 /* GET speficied problem */
@@ -94,7 +93,7 @@ router.get('/:problem_id', Problems.retrieve, ProblemsSamples.list, ProblemsTags
 
 /* POST submit answer */
 router.post('/:problem_id', Submissions.add, (req, res) => {
-  res.redirect('/submissions');
+  res.redirect('/submission');
 });
 
 /* GET problem */

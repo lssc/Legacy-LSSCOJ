@@ -5,6 +5,7 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res) => {
+  console.log(req.isAdmin, req.isLogin);
   res.render('index', {
     isAdmin: req.isAdmin,
     isLogin: req.isLogin,

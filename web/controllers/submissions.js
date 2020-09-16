@@ -1,53 +1,44 @@
-const Submissions = require('../models/index').submissions;
+const Submission = require('../models/submission');
 
 module.exports = {
 
   /* List all submissions */
   list(req, res, next) {
-    Submissions.findAll({
-      order: [['id', 'DESC']],
-    })
-      .then((submissions) => {
+    Submission.find()
+      .sort({ _id: 'desc' })
+      .exec((err, submissions) => {
+        if (err) throw err;
         req.submissions = submissions;
         next();
-      })
-      .catch((err) => { throw err; });
+      });
   },
+
   /* Find one submission */
   retrieve(req, res, next) {
-    Submissions.findOne({
-      where: { id: req.params.submission_id },
+    Submission.findOne({
+      _id: req.params.submission_id,
     })
-      .then((submission) => {
+      .exec((err, submission) => {
+        if (err) throw err;
         req.submission = submission;
         next();
-      })
-      .catch((err) => { throw err; });
+      });
   },
   /* Add a submission */
   add(req, res, next) {
     if (!req.isLogin) {
       res.redirect('/login');
     } else {
-      Submissions.create({
-        problem_id: req.params.problem_id,
-        contest_id: req.session.user.current_contest_id || null,
-        submit_time: Date.now(),
-        submitter_id: req.session.user.id,
-        content: req.body.content,
+      const submission = new Submission({
+        problem: req.params.problem_id,
+        contest: req.session.user.current_contest_id || null,
+        submitter: req.session.user._id,
+        code: req.body.content,
         language: req.body.language, // C, C++, Java, Python
-        tot_size: req.body.content.length,
-        result: 'Unknown',
-        status: 'Pending',
-        is_hidden: 0,
-        status_details: '',
-      })
-        .then((submission) => {
-          // judge
-          req.submission = submission;
-          next();
-        })
-        .catch((err) => { throw err; });
+      });
+      submission.save();
+      req.submission = submission;
+      next();
     }
   },
   /* Remove a submission */
@@ -58,19 +49,11 @@ module.exports = {
     } else if (!req.isLogin) {
       res.redirect('/login');
     } else {
-      Submissions.findOne({
-        where: { id: req.params.submission_id },
-      })
-        .then((existSubmission) => {
-          if (!existSubmission) {
-            res.send('Submission not exist!');
-          } else {
-            existSubmission.destroy()
-              .then(() => next())
-              .catch((err) => { throw err; });
-          }
-        })
-        .catch((err) => { throw err; });
+      Submission.deleteOne({ _id: req.params.submission_id })
+        .exec((err) => {
+          if (err) throw err;
+          next();
+        });
     }
   },
 };

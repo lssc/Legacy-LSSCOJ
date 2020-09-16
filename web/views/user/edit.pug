@@ -3,7 +3,7 @@ extends ../layout
 block content
     div(class='card')
         div(class="card-body")
-            form(action=`/users/${cur_user.id}/edit`, method="post")
+            form(action=`/user/${cur_user.id}/edit`, method="post")
                 h3(class='card-title') Edit your Profile
                 div(class='form-group')
                     lable(for="username") Username

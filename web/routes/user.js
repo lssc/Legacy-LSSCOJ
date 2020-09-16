@@ -26,7 +26,7 @@ router.get('/:user_id/edit', (req, res) => {
 });
 
 router.post('/:user_id/edit', UserInfo.modify, (req, res) => {
-  res.redirect(`/users/${req.params.user_id}`);
+  res.redirect(`/user/${req.params.user_id}`);
 });
 
 /* GET user profile */

@@ -8,10 +8,10 @@ const ContestSchema = new Schema(
     start_time: { type: Date, required: true },
     end_time: { type: Date, required: true },
     status: { type: String },
-    problem: [{ type: Schema.Types.ObjectId, ref: 'Problem' }],
-    manager: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
-    registrant: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
-    user_like: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
+    problems: [{ type: Schema.Types.ObjectId, ref: 'Problem' }],
+    managers: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
+    registrants: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
+    user_likes: [{ type: Schema.Types.ObjectId, ref: 'UserInfo' }],
   },
 );
 

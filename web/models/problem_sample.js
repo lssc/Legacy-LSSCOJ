@@ -9,4 +9,4 @@ const ProblemSampleSchema = new Schema(
   },
 );
 
-module.exports = mongoose.model(ProblemSampleSchema);
+module.exports = mongoose.model('ProblemSample', ProblemSampleSchema);

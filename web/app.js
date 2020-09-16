@@ -11,6 +11,7 @@ const sess = {
 };
 
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
 const userRouter = require('./routes/user');
@@ -25,8 +26,9 @@ const adminController = require('./controllers/admin');
 const app = express();
 
 // MongoDB Setup
+dotenv.config();
 const mongoDB = process.env.DATABASE_URL;
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -43,7 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sess));
 
 // check whether current user has admin authority
-app.use(adminController.check);
+app.use(adminController.checkRole);
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);

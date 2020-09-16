@@ -11,7 +11,7 @@ const UserInfoSchema = new Schema(
     rating: { type: Number },
     register_time: { type: Date, default: Date.now },
     quote: { type: String, default: '' },
-    is_admin: { type: String, default: false },
+    is_admin: { type: Boolean, default: false },
   },
 );
 

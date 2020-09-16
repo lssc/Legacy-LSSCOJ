@@ -1,13 +1,15 @@
 const express = require('express');
-const Hacks = require('../models/index').hacks;
+const Hacks = require('../models/hack');
 
 const router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  Hacks.findAll()
-    .then((hacks) => res.render('hack/index', { hacks }))
-    .catch((error) => { throw error; });
+  Hacks.find()
+    .exec((err, hacks) => {
+      if (err) throw err;
+      res.render('hack/index', { hacks });
+    });
 });
 
 /* GET speficied hack */

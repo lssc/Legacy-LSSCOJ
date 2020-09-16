@@ -12,9 +12,9 @@ block content
         tr
           th(scope='row')= problem.id
           td
-            a(href=`/problems/${problem.id}`)=problem.title
+            a(href=`/problem/${problem.id}`)=problem.title
   
   h5 Create your own problem
-  form(action="/problems/create", method="get")
+  form(action="/problem/create", method="get")
     button(class='btn btn-primary') Go Create Problem
         

@@ -11,7 +11,7 @@ block content
          th(scope='col') Duration
          th(scope='col') Registrants
     tbody
-      each contest in active_contests
+      each contest in futureContests
         tr
           th(scope='row')= contest.name
           td= contest.start_time
@@ -27,7 +27,7 @@ block content
        th(scope='col') Duration
        th(scope='col') Registrants
     tbody
-      each contest in passed_contests
+      each contest in passedContests
         tr
           th(scope='row')= contest.name
           td= contest.start_time

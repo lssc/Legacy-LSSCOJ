@@ -1,49 +1,36 @@
-const ProblemsTags = require('../models/index').problems_tags;
+const ProblemTag = require('../models/problem_tag');
 
 module.exports = {
 
   /* List all problems' tags */
   list(req, res, next) {
-    ProblemsTags.findAll({
-      where: { problem_id: req.params.problem_id },
-    })
-      .then((tags) => {
-        req.problem_tags = tags;
-        next();
-      })
-      .catch((err) => { throw err; });
+    ProblemTag.find({
+      problem: req.params.problem_id,
+    }).exec((err, tags) => {
+      if (err) throw err;
+      req.problem_tags = tags;
+      next();
+    });
   },
   /* Add a tag to problem */
   /* You should check permissions first before modify. */
   add(req, res, next) {
-    ProblemsTags.create({
-      problem_id: req.params.problem_id,
+    const tag = new ProblemTag({
+      problem: req.params.problem_id,
       tag: req.body.tag,
-    })
-      .then((tag) => {
-        req.problem_tag = tag;
-        next();
-      })
-      .catch((err) => { throw err; });
+    });
+    tag.save();
+    req.problem_tag = tag;
+    next();
   },
   /* Remove a tag from problem */
   /* You should check permissions first before modify. */
   remove(req, res, next) {
-    ProblemsTags.findOne({
-      where: {
-        problem_id: req.params.problem_id,
-        tag: req.params.tag,
-      },
-    })
-      .then((existTag) => {
-        if (!existTag) {
-          res.send('Tag unexisted');
-        } else {
-          existTag.destroy()
-            .then(() => next())
-            .catch((err) => { throw err; });
-        }
-      })
-      .catch((err) => { throw err; });
+    ProblemTag.deleteOne({
+      _id: req.params.tag_id,
+    }).exec((err) => {
+      if (err) throw err;
+      next();
+    });
   },
 };
