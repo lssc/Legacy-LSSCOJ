@@ -20,9 +20,9 @@ block content
         th(scope='row')
           a(href=`/submission/${submission.id}`)= submission.id
         td
-          a(href=`/problem/${submission.problem_id}`)= submission.problemTitle
+          a(href=`/problem/${submission.problem.id}`)= submission.problem.title
         td
-          a(href=`/user/${submission.submitter_id}`)= submission.submitter
+          a(href=`/user/${submission.submitter.id}`)= submission.submitter.username
         td= submission.result
         td= submission.time || '--:--:--'
         td= submission.memory || '--:--:--'
@@ -30,7 +30,7 @@ block content
         td= submission.tot_size
         td= submission.submit_time
 
-  textarea(class='code-area', disabled) Code here
+  textarea(class='code-area', disabled)= submission.code
   
   div(class='text-center')
     button(class='btn btn-danger') Hack this Code!

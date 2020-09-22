@@ -30,7 +30,7 @@ router.post('/:user_id/edit', UserInfo.modify, (req, res) => {
 });
 
 /* GET user profile */
-router.get('/:user_id', UserInfo.retrieve, (req, res) => {
+router.get('/:id', UserInfo.retrieve, (req, res) => {
   res.render('user/profile', {
     profile: req.user,
     isAdmin: req.isAdmin,

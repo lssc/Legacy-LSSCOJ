@@ -24,7 +24,7 @@ module.exports = {
   },
   /* Add a problem */
   /* Remember to add permission */
-  add(req, res, next) {
+  async add(req, res, next) {
     const problem = new Problem({
       title: req.body.title,
       statement: req.body.statement,
@@ -32,7 +32,7 @@ module.exports = {
       output_description: req.body.output,
       hint: req.body.hint,
     });
-    problem.save();
+    await problem.save();
     req.problem = problem;
     next();
   },

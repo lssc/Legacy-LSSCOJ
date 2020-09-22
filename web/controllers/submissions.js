@@ -6,6 +6,8 @@ module.exports = {
   list(req, res, next) {
     Submission.find()
       .sort({ _id: 'desc' })
+      .populate('submitter')
+      .populate('problem')
       .exec((err, submissions) => {
         if (err) throw err;
         req.submissions = submissions;
@@ -18,6 +20,8 @@ module.exports = {
     Submission.findOne({
       _id: req.params.submission_id,
     })
+      .populate('submitter')
+      .populate('problem')
       .exec((err, submission) => {
         if (err) throw err;
         req.submission = submission;
@@ -39,21 +43,6 @@ module.exports = {
       submission.save();
       req.submission = submission;
       next();
-    }
-  },
-  /* Remove a submission */
-  /* You should check permissions first before modify. */
-  remove(req, res, next) {
-    if (!req.isAdmin) {
-      res.send('You are not admin!\nYou cannot remove the submission.');
-    } else if (!req.isLogin) {
-      res.redirect('/login');
-    } else {
-      Submission.deleteOne({ _id: req.params.submission_id })
-        .exec((err) => {
-          if (err) throw err;
-          next();
-        });
     }
   },
 };

@@ -6,7 +6,7 @@ const ProblemSchema = new Schema(
   {
     title: { type: String, required: true },
     statement: { type: String, required: true },
-    input_description: { type: String, required: true },
+    input_description: { type: String, default: '' },
     output_description: { type: String, required: true },
     samples: [{ type: Schema.Types.ObjectId, ref: 'ProblemSample' }],
     hint: { type: String },
